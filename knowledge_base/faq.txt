@@ -1,0 +1,15 @@
+"""
+CX knowledge base notes for FAQ-style snippets.
+
+Refund FAQ
+Q: Can I get a refund before the item is returned?
+A: No. Refunds are approved only after warehouse inspection, except for approved lost-package claims.
+
+Order Cancellation FAQ
+Q: Can I cancel after shipping?
+A: Once shipped, cancel is not available. Use the returns flow after delivery instead.
+
+Password Reset FAQ
+Q: I did not receive a reset email.
+A: Check spam, confirm the account email, then wait 10 minutes before requesting another reset link.
+"""

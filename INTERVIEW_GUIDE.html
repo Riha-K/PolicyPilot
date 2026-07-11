@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Interview Guide — RAG Customer Experience System</title>
+  <style>
+    :root {
+      --bg: #f6f3ee;
+      --ink: #1c1a17;
+      --muted: #5c564c;
+      --card: #fffdf9;
+      --line: #d9d0c3;
+      --accent: #0f6b5c;
+      --accent-2: #b45309;
+      --code: #efe8dc;
+      --ok: #166534;
+      --warn: #9a3412;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, #e7f2ef 0, transparent 40%),
+        radial-gradient(circle at top right, #f8e9d8 0, transparent 35%),
+        var(--bg);
+      line-height: 1.55;
+    }
+    header {
+      padding: 2.2rem 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,253,249,0.85);
+      backdrop-filter: blur(6px);
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+    header h1 { margin: 0 0 0.35rem; font-size: 1.65rem; }
+    header p { margin: 0; color: var(--muted); max-width: 70ch; }
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    nav a {
+      text-decoration: none;
+      color: var(--accent);
+      border: 1px solid var(--line);
+      background: var(--card);
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.88rem;
+    }
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 3rem;
+    }
+    section {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1.25rem 1.3rem;
+      margin: 1.1rem 0;
+      box-shadow: 0 8px 24px rgba(40, 30, 10, 0.04);
+    }
+    h2 {
+      margin-top: 0;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 0.35rem;
+      font-size: 1.25rem;
+    }
+    h3 { color: var(--accent); margin-bottom: 0.4rem; }
+    .muted { color: var(--muted); }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.9rem;
+    }
+    @media (max-width: 800px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: #eef7f4;
+      padding: 0.8rem 1rem;
+      border-radius: 0 10px 10px 0;
+      margin: 0.8rem 0;
+    }
+    .warn {
+      border-left-color: var(--accent-2);
+      background: #fff7ed;
+    }
+    pre, code {
+      font-family: Consolas, "Courier New", monospace;
+    }
+    pre {
+      background: var(--code);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+      overflow-x: auto;
+      font-size: 0.86rem;
+    }
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      align-items: center;
+      margin: 0.8rem 0;
+    }
+    .node {
+      background: #123c36;
+      color: #f5fffc;
+      padding: 0.55rem 0.75rem;
+      border-radius: 10px;
+      font-size: 0.86rem;
+      max-width: 160px;
+      text-align: center;
+    }
+    .node.alt { background: #7c2d12; }
+    .node.soft { background: #334155; }
+    .arrow { color: var(--muted); font-weight: 700; }
+    .arch {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px dashed var(--line);
+      border-radius: 12px;
+      background: #fbfaf7;
+      padding: 0.6rem;
+    }
+    svg text { font-family: "Segoe UI", sans-serif; }
+    details {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0.55rem 0.8rem;
+      margin: 0.45rem 0;
+      background: #fff;
+    }
+    details summary {
+      cursor: pointer;
+      font-weight: 600;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.93rem;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 0.5rem 0.6rem;
+      vertical-align: top;
+      text-align: left;
+    }
+    th { background: #f0ebe3; }
+    .tag {
+      display: inline-block;
+      background: #e7f2ef;
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 0.1rem 0.55rem;
+      font-size: 0.78rem;
+      margin-right: 0.25rem;
+    }
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      padding-bottom: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Interview Guide — RAG Customer Experience Automation</h1>
+    <p>
+      Project story, architecture visuals, technology deep-dives, and scenario-based questions.
+      Open this file in any browser. Pair with <code>README.md</code>, <code>RUNBOOK.md</code>, and <code>docs/</code>.
+    </p>
+    <nav>
+      <a href="#why">Why it matters</a>
+      <a href="#story">Elevator pitch</a>
+      <a href="#arch">Architecture</a>
+      <a href="#flow">Flows</a>
+      <a href="#tech">Technologies</a>
+      <a href="#scenarios">Scenarios</a>
+      <a href="#qa">Q&amp;A bank</a>
+      <a href="#mistakes">Common traps</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="why">
+      <h2>1. Why this project is important</h2>
+      <div class="grid-2">
+        <div>
+          <h3>Business value</h3>
+          <ul>
+            <li>Customers ask the same policy questions repeatedly.</li>
+            <li>Static FAQs are hard to search; agents waste time hunting SOPs.</li>
+            <li>A grounded assistant answers faster while staying consistent with policy.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Technical value</h3>
+          <ul>
+            <li>Shows you understand <strong>RAG</strong>, not only chat wrappers.</li>
+            <li>Separates <strong>knowledge updates</strong> (reindex docs) from <strong>model training</strong>.</li>
+            <li>Demonstrates embeddings, vector search, prompting, and a deployable UI.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout">
+        <strong>One-line impact:</strong> Reduce support load and hallucination risk by answering from retrieved company documents instead of model memory alone.
+      </div>
+    </section>
+
+    <section id="story">
+      <h2>2. Elevator pitch (30–45 seconds)</h2>
+      <p>
+        “I built a Retrieval-Augmented Generation system for customer experience.
+        Policy docs for shipping, billing, returns, and support are chunked and embedded with a local sentence-transformers model into Chroma.
+        When a user asks a question in Streamlit, we retrieve top‑k chunks and generate an answer with OpenAI or Ollama using a grounded system prompt.
+        The UI also shows sources so answers are inspectable. Policies can be updated by editing files and reindexing—no model retrain required.”
+      </p>
+      <p class="muted">Resume bullets tip: emphasize ingest → retrieve → grounded generate → Streamlit deployability.</p>
+    </section>
+
+    <section id="arch">
+      <h2>3. Architecture (visual)</h2>
+      <div class="arch">
+        <svg viewBox="0 0 920 420" width="900" height="400" role="img" aria-label="RAG architecture diagram">
+          <rect x="20" y="30" width="160" height="70" rx="10" fill="#123c36"/>
+          <text x="100" y="60" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">knowledge_base</text>
+          <text x="100" y="80" text-anchor="middle" fill="#d7f5ee" font-size="11">md / txt / pdf</text>
+
+          <rect x="230" y="30" width="140" height="70" rx="10" fill="#334155"/>
+          <text x="300" y="60" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">Chunking</text>
+          <text x="300" y="80" text-anchor="middle" fill="#e2e8f0" font-size="11">overlap windows</text>
+
+          <rect x="420" y="30" width="160" height="70" rx="10" fill="#334155"/>
+          <text x="500" y="60" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">Embeddings</text>
+          <text x="500" y="80" text-anchor="middle" fill="#e2e8f0" font-size="11">MiniLM local</text>
+
+          <rect x="630" y="30" width="170" height="70" rx="10" fill="#0f766e"/>
+          <text x="715" y="60" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">ChromaDB</text>
+          <text x="715" y="80" text-anchor="middle" fill="#ccfbf1" font-size="11">persistent vectors</text>
+
+          <line x1="180" y1="65" x2="230" y2="65" stroke="#7c6f5c" stroke-width="3" marker-end="url(#arrow)"/>
+          <line x1="370" y1="65" x2="420" y2="65" stroke="#7c6f5c" stroke-width="3"/>
+          <line x1="580" y1="65" x2="630" y2="65" stroke="#7c6f5c" stroke-width="3"/>
+
+          <rect x="20" y="180" width="180" height="90" rx="10" fill="#7c2d12"/>
+          <text x="110" y="215" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">Streamlit UI</text>
+          <text x="110" y="238" text-anchor="middle" fill="#ffedd5" font-size="11">chat + sources</text>
+          <text x="110" y="256" text-anchor="middle" fill="#ffedd5" font-size="11">reindex / upload</text>
+
+          <rect x="260" y="190" width="170" height="70" rx="10" fill="#334155"/>
+          <text x="345" y="220" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">Query embed</text>
+          <text x="345" y="240" text-anchor="middle" fill="#e2e8f0" font-size="11">same MiniLM space</text>
+
+          <rect x="500" y="190" width="170" height="70" rx="10" fill="#0f766e"/>
+          <text x="585" y="220" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">Top‑k retrieve</text>
+          <text x="585" y="240" text-anchor="middle" fill="#ccfbf1" font-size="11">cosine similarity</text>
+
+          <rect x="720" y="170" width="170" height="110" rx="10" fill="#123c36"/>
+          <text x="805" y="210" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">LLM generate</text>
+          <text x="805" y="232" text-anchor="middle" fill="#d7f5ee" font-size="11">OpenAI or Ollama</text>
+          <text x="805" y="252" text-anchor="middle" fill="#d7f5ee" font-size="11">grounded prompt</text>
+
+          <line x1="200" y1="225" x2="260" y2="225" stroke="#7c6f5c" stroke-width="3"/>
+          <line x1="430" y1="225" x2="500" y2="225" stroke="#7c6f5c" stroke-width="3"/>
+          <line x1="670" y1="225" x2="720" y2="225" stroke="#7c6f5c" stroke-width="3"/>
+          <line x1="715" y1="100" x2="585" y2="190" stroke="#a8a29e" stroke-width="2" stroke-dasharray="5 4"/>
+
+          <rect x="120" y="320" width="680" height="70" rx="12" fill="#efe8dc" stroke="#d9d0c3"/>
+          <text x="460" y="350" text-anchor="middle" fill="#1c1a17" font-size="14" font-weight="700">
+            Key idea: Knowledge lives in docs + vectors; the LLM only reasons over retrieved context
+          </text>
+          <text x="460" y="372" text-anchor="middle" fill="#5c564c" font-size="12">
+            Update policy → edit file → reindex  |  No daily fine-tune required
+          </text>
+
+          <defs>
+            <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#7c6f5c" />
+            </marker>
+          </defs>
+        </svg>
+      </div>
+    </section>
+
+    <section id="flow">
+      <h2>4. Flowcharts</h2>
+      <h3>Ingest flow</h3>
+      <div class="flow">
+        <div class="node">Read file</div><div class="arrow">→</div>
+        <div class="node">Extract text</div><div class="arrow">→</div>
+        <div class="node">Chunk</div><div class="arrow">→</div>
+        <div class="node">Embed</div><div class="arrow">→</div>
+        <div class="node soft">Upsert Chroma</div>
+      </div>
+
+      <h3>Query flow</h3>
+      <div class="flow">
+        <div class="node alt">User question</div><div class="arrow">→</div>
+        <div class="node">Embed query</div><div class="arrow">→</div>
+        <div class="node">Top‑k search</div><div class="arrow">→</div>
+        <div class="node">Build prompt</div><div class="arrow">→</div>
+        <div class="node soft">LLM answer</div><div class="arrow">→</div>
+        <div class="node alt">UI + sources</div>
+      </div>
+
+      <h3>Decision: OpenAI vs Ollama</h3>
+      <pre>IF OPENAI_API_KEY is set
+    use OpenAI-compatible chat API
+ELSE
+    call Ollama /api/chat at OLLAMA_BASE_URL
+    (model = OLLAMA_MODEL)</pre>
+    </section>
+
+    <section id="tech">
+      <h2>5. Technologies — what &amp; why (each one)</h2>
+
+      <details open>
+        <summary>Python</summary>
+        <p><span class="tag">language</span> Main implementation language. Fast to prototype ML/LLM apps, rich ecosystem for embeddings and HTTP clients.</p>
+        <p><strong>Why here:</strong> Glues Streamlit, Chroma, sentence-transformers, and LLM APIs in one codebase.</p>
+      </details>
+
+      <details>
+        <summary>Streamlit</summary>
+        <p><span class="tag">UI</span> Turns Python scripts into interactive web apps with chat inputs, sidebars, and file uploaders.</p>
+        <p><strong>Why here:</strong> Deployable interactive demo without building a separate React frontend. Good for interviews and Streamlit Cloud.</p>
+      </details>
+
+      <details>
+        <summary>RAG (Retrieval-Augmented Generation)</summary>
+        <p><span class="tag">pattern</span> Retrieve relevant text first, then generate an answer conditioned on that text.</p>
+        <p><strong>Why here:</strong> CX policies change; RAG lets you update docs instead of retraining. Also reduces hallucinations vs plain LLM chat.</p>
+      </details>
+
+      <details>
+        <summary>sentence-transformers (all-MiniLM-L6-v2)</summary>
+        <p><span class="tag">embeddings</span> Converts text into dense vectors so similar meanings are close in vector space.</p>
+        <p><strong>Why here:</strong> Local, free after download, strong baseline for English semantic search, small enough for demos.</p>
+      </details>
+
+      <details>
+        <summary>ChromaDB</summary>
+        <p><span class="tag">vector database</span> Stores embeddings + documents + metadata and supports nearest-neighbor query.</p>
+        <p><strong>Why here:</strong> Persistent local index with simple Python API; perfect for a portfolio/deployable Streamlit app.</p>
+      </details>
+
+      <details>
+        <summary>Chunking (overlap windows)</summary>
+        <p><span class="tag">preprocessing</span> Long documents are split so each vector represents a focused passage. Overlap preserves continuity across boundaries.</p>
+        <p><strong>Why here:</strong> Embedding models have practical context limits; better chunks = better retrieval.</p>
+      </details>
+
+      <details>
+        <summary>OpenAI API (optional)</summary>
+        <p><span class="tag">LLM backend</span> Hosted chat models via HTTP.</p>
+        <p><strong>Why here:</strong> High-quality generation for cloud deploy when a key is available.</p>
+      </details>
+
+      <details>
+        <summary>Ollama (optional/local)</summary>
+        <p><span class="tag">LLM backend</span> Runs open models locally and exposes a chat HTTP API.</p>
+        <p><strong>Why here:</strong> Zero API cost local demos; privacy-friendly for sensitive policy text during development.</p>
+      </details>
+
+      <details>
+        <summary>python-dotenv / .env</summary>
+        <p><span class="tag">config</span> Loads secrets and model names without hardcoding.</p>
+        <p><strong>Why here:</strong> Clean separation of credentials from code; required for deployable apps.</p>
+      </details>
+
+      <details>
+        <summary>pypdf</summary>
+        <p><span class="tag">ingestion</span> Extracts text from PDF policy documents.</p>
+        <p><strong>Why here:</strong> Real CX teams often store SOPs as PDFs.</p>
+      </details>
+
+      <details>
+        <summary>httpx</summary>
+        <p><span class="tag">HTTP client</span> Calls Ollama’s local API reliably with timeouts.</p>
+        <p><strong>Why here:</strong> Simple, modern client for non-OpenAI generation path.</p>
+      </details>
+
+      <details>
+        <summary>Cosine similarity (via Chroma distance)</summary>
+        <p><span class="tag">retrieval math</span> Measures angle similarity between normalized vectors.</p>
+        <p><strong>Why here:</strong> Standard metric for semantic embedding search; scores help explain “why this chunk.”</p>
+      </details>
+    </section>
+
+    <section id="scenarios">
+      <h2>6. Scenario-based interview questions</h2>
+
+      <details open>
+        <summary>S1. Customer asks: “What is the electronics return window?”</summary>
+        <p><strong>Expected system behavior:</strong> Retrieve from <code>returns.md</code>, answer <strong>15 days</strong>, mention accessories/seals.</p>
+        <p><strong>Follow-up:</strong> “What if retrieval returns shipping instead?” → tune chunks, add synonyms, evaluate hit-rate, consider hybrid search.</p>
+      </details>
+
+      <details>
+        <summary>S2. Policy changes tomorrow: express shipping becomes 1 day only in metros</summary>
+        <p><strong>Correct approach:</strong> Edit <code>shipping.md</code> → Reindex → no LLM fine-tune needed.</p>
+        <p><strong>Why interviewers like this:</strong> Shows you know RAG’s operational advantage.</p>
+      </details>
+
+      <details>
+        <summary>S3. Model invents a “₹500 goodwill credit” not in docs</summary>
+        <p><strong>Diagnosis:</strong> Hallucination / weak grounding.</p>
+        <p><strong>Mitigations:</strong> stronger system prompt, lower temperature, require citations, refuse when context missing, add eval checks, optionally grounded decoding / stricter post-validation.</p>
+      </details>
+
+      <details>
+        <summary>S4. Streamlit Cloud deploy but Ollama is on your laptop</summary>
+        <p><strong>Issue:</strong> Cloud app cannot reach localhost Ollama.</p>
+        <p><strong>Fix:</strong> Use OpenAI/compatible hosted LLM in secrets, or host the model on a public endpoint/VPN.</p>
+      </details>
+
+      <details>
+        <summary>S5. PDF is a scanned image; ingest extracts empty text</summary>
+        <p><strong>Issue:</strong> pypdf can’t OCR scans.</p>
+        <p><strong>Fix:</strong> OCR pipeline (Tesseract) before ingest, or store a text layer PDF; keep sample KB as markdown for reliability.</p>
+      </details>
+
+      <details>
+        <summary>S6. Latency is too high</summary>
+        <p>Profile stages: embedding load (once), retrieval (usually fast), LLM (dominant). Cache embeddings model, reduce top‑k, use smaller/faster LLM, pre-warm Streamlit <code>cache_resource</code>.</p>
+      </details>
+
+      <details>
+        <summary>S7. Two policies conflict (chat says 30 days, PDF says 15 for electronics)</summary>
+        <p>Prefer more specific policy, improve chunk metadata, add document hierarchy, show sources to agent/user, fix source docs (source of truth).</p>
+      </details>
+    </section>
+
+    <section id="qa">
+      <h2>7. Rapid-fire Q&amp;A bank</h2>
+      <table>
+        <thead>
+          <tr><th>Question</th><th>Strong answer sketch</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>What is RAG?</td>
+            <td>Retrieve relevant external knowledge, then generate conditioned on that knowledge.</td>
+          </tr>
+          <tr>
+            <td>Why not only fine-tune?</td>
+            <td>Policies change often; fine-tunes are slower/costlier to update and can still hallucinate facts.</td>
+          </tr>
+          <tr>
+            <td>Why chunking?</td>
+            <td>Improves retrieval precision; fits embedding model practical limits; overlap reduces boundary loss.</td>
+          </tr>
+          <tr>
+            <td>What is stored in Chroma?</td>
+            <td>Chunk id, text, embedding vector, metadata (source, index).</td>
+          </tr>
+          <tr>
+            <td>How do you evaluate?</td>
+            <td>Retrieval recall@k, answer faithfulness, human CX review, golden question set.</td>
+          </tr>
+          <tr>
+            <td>Security concerns?</td>
+            <td>Prompt injection via uploaded docs, secret leakage, PII in KB, auth on deployed UI.</td>
+          </tr>
+          <tr>
+            <td>Did you train a model?</td>
+            <td>No by default—indexed docs + prompted LLM. Training is optional (see TRAINING_GUIDE).</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="mistakes">
+      <h2>8. Common interview traps (avoid these)</h2>
+      <div class="callout warn">
+        <ul>
+          <li>Saying “I trained Llama on PDFs” when you only did RAG indexing.</li>
+          <li>Claiming 0% hallucination because sources are shown (sources help, they don’t guarantee faithfulness).</li>
+          <li>Ignoring that embedding model and chat model are different components.</li>
+          <li>Not knowing your chunk size, top‑k, or distance metric.</li>
+          <li>Forgetting deploy constraint: local Ollama ≠ cloud availability.</li>
+        </ul>
+      </div>
+
+      <h3>Numbers to remember from this project</h3>
+      <ul>
+        <li>Default embedding model: <code>sentence-transformers/all-MiniLM-L6-v2</code></li>
+        <li>Default chunk size / overlap: 700 / 120</li>
+        <li>Default top‑k: 4</li>
+        <li>UI entrypoint: <code>streamlit run app/streamlit_app.py</code></li>
+        <li>Sample domains: shipping, billing, returns, support</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>9. Suggested demo script (3 minutes)</h2>
+      <ol>
+        <li>Show <code>knowledge_base/returns.md</code> electronics = 15 days.</li>
+        <li>Ask the question in Streamlit; show retrieved chunk panel.</li>
+        <li>Ask an out-of-knowledge question; show refusal / insufficient-info behavior.</li>
+        <li>Upload a tiny extra policy snippet; ask a question that needs it.</li>
+        <li>Explain OpenAI vs Ollama switch via <code>.env</code>.</li>
+      </ol>
+    </section>
+  </main>
+
+  <footer>
+    RAG Customer Experience Automation System — Interview Guide (HTML) · companion docs in Markdown
+  </footer>
+</body>
+</html>
