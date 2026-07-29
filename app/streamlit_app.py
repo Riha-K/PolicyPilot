@@ -1,4 +1,4 @@
-"""Streamlit UI for the RAG Customer Experience assistant."""
+"""Streamlit UI for PolicyPilot."""
 
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ from app.config import settings
 from app.rag.pipeline import RAGPipeline
 
 st.set_page_config(
-    page_title="CX RAG Assistant",
+    page_title="PolicyPilot",
     page_icon="💬",
     layout="wide",
 )
@@ -30,9 +30,9 @@ def get_pipeline() -> RAGPipeline:
 
 
 def main() -> None:
-    st.title("RAG Customer Experience Assistant")
+    st.title("PolicyPilot")
     st.caption(
-        "Ask policy questions. Answers are grounded in retrieved knowledge-base chunks "
+        "Grounded CX policy Q&A. Answers use retrieved knowledge-base chunks "
         "(shipping, billing, returns, support)."
     )
 

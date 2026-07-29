@@ -1,4 +1,4 @@
-# Architecture — RAG Customer Experience
+# Architecture — PolicyPilot
 
 ## Goal
 

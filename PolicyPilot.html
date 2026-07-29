@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Interview Guide — RAG Customer Experience System</title>
+  <title>Interview Guide — PolicyPilot</title>
   <style>
     :root {
       --bg: #f6f3ee;
@@ -175,7 +175,7 @@
 </head>
 <body>
   <header>
-    <h1>Interview Guide — RAG Customer Experience Automation</h1>
+    <h1>Interview Guide — PolicyPilot</h1>
     <p>
       Project story, architecture visuals, technology deep-dives, and scenario-based questions.
       Open this file in any browser. Pair with <code>README.md</code>, <code>RUNBOOK.md</code>, and <code>docs/</code>.
@@ -186,6 +186,8 @@
       <a href="#arch">Architecture</a>
       <a href="#flow">Flows</a>
       <a href="#tech">Technologies</a>
+      <a href="#followups">Follow-ups</a>
+      <a href="#streamlit">Streamlit UI</a>
       <a href="#scenarios">Scenarios</a>
       <a href="#qa">Q&amp;A bank</a>
       <a href="#mistakes">Common traps</a>
@@ -221,12 +223,12 @@
     <section id="story">
       <h2>2. Elevator pitch (30–45 seconds)</h2>
       <p>
-        “I built a Retrieval-Augmented Generation system for customer experience.
+        “I built <strong>PolicyPilot</strong> — a Retrieval-Augmented Generation assistant for customer experience.
         Policy docs for shipping, billing, returns, and support are chunked and embedded with a local sentence-transformers model into Chroma.
         When a user asks a question in Streamlit, we retrieve top‑k chunks and generate an answer with OpenAI or Ollama using a grounded system prompt.
         The UI also shows sources so answers are inspectable. Policies can be updated by editing files and reindexing—no model retrain required.”
       </p>
-      <p class="muted">Resume bullets tip: emphasize ingest → retrieve → grounded generate → Streamlit deployability.</p>
+      <p class="muted">Resume bullets tip: emphasize PolicyPilot · ingest → retrieve → grounded generate → Streamlit deployability.</p>
     </section>
 
     <section id="arch">
@@ -353,6 +355,7 @@ ELSE
         <summary>ChromaDB</summary>
         <p><span class="tag">vector database</span> Stores embeddings + documents + metadata and supports nearest-neighbor query.</p>
         <p><strong>Why here:</strong> Persistent local index with simple Python API; perfect for a portfolio/deployable Streamlit app.</p>
+        <p><strong>In this project:</strong> persistent client at <code>data/chroma/</code>, collection <code>policy_pilot</code>, cosine space. Source text comes from <code>knowledge_base/</code> (Chroma stores vectors after ingest — it is not the original policy source).</p>
       </details>
 
       <details>
@@ -398,8 +401,231 @@ ELSE
       </details>
     </section>
 
+    <section id="followups">
+      <h2>6. Follow-up deep dives (from interview Qs)</h2>
+
+      <details open>
+        <summary>F1. Why OpenAI AND Ollama? (two chat LLMs)</summary>
+        <p>They are <strong>not used together</strong>. One path is chosen at runtime:</p>
+        <pre>IF OPENAI_API_KEY is set
+    → OpenAI-compatible chat API
+ELSE
+    → Ollama /api/chat (OLLAMA_BASE_URL + OLLAMA_MODEL)</pre>
+        <ul>
+          <li><strong>OpenAI:</strong> easy for cloud deploy / Streamlit Cloud (laptop Ollama is unreachable from the cloud).</li>
+          <li><strong>Ollama:</strong> free/local demo with no API key.</li>
+          <li><strong>Same job:</strong> write a grounded answer from retrieved chunks.</li>
+          <li><strong>Fallback:</strong> if neither works, show extractive top chunks (not a third LLM).</li>
+        </ul>
+        <p class="muted">MiniLM is separate — it is the <em>embedding</em> model for retrieval, not the chat model.</p>
+      </details>
+
+      <details open>
+        <summary>F2. Which database? How does it work? Where does data come from?</summary>
+        <p><strong>Database:</strong> <span class="tag">ChromaDB</span> — a <em>vector</em> database (not Postgres/MySQL for this app).</p>
+        <p><strong>Source of truth (where text begins):</strong></p>
+        <pre>knowledge_base/
+  shipping.md, billing.md, returns.md, support.md, faq.txt
+  (+ optional UI uploads: .txt / .md / .pdf)</pre>
+        <p><strong>How it gets into Chroma:</strong></p>
+        <div class="flow">
+          <div class="node">KB files</div><div class="arrow">→</div>
+          <div class="node">Chunk</div><div class="arrow">→</div>
+          <div class="node">Embed (MiniLM)</div><div class="arrow">→</div>
+          <div class="node soft">Upsert Chroma<br/><small>data/chroma/</small></div>
+        </div>
+        <p><strong>What each row stores:</strong> chunk id, original text, embedding vector, metadata (<code>source</code>, <code>index</code>).</p>
+        <p><strong>At question time:</strong> embed the question with the same MiniLM → Chroma nearest-neighbor (cosine, top‑k) → return similar policy chunks → LLM answers from that context.</p>
+        <div class="callout">
+          Interview line: “Chroma doesn’t hold raw company knowledge by itself — we ingest policy files from <code>knowledge_base/</code>, embed them, and Chroma stores the vectors for semantic search.”
+        </div>
+      </details>
+
+      <details>
+        <summary>F3. Chunking, embedding, vector — what / how / which</summary>
+        <table>
+          <thead>
+            <tr><th>Step</th><th>What</th><th>How / which in this repo</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Chunking</strong></td>
+              <td>Split long docs into overlapping pieces so retrieval is precise.</td>
+              <td><code>app/rag/chunking.py</code> — size 700, overlap 120; prefer paragraph/sentence breaks.</td>
+            </tr>
+            <tr>
+              <td><strong>Embedding</strong></td>
+              <td>Turn each chunk (and later the question) into a dense number vector that captures meaning.</td>
+              <td><code>sentence-transformers/all-MiniLM-L6-v2</code> via <code>embeddings.py</code>.</td>
+            </tr>
+            <tr>
+              <td><strong>Vector / store</strong></td>
+              <td>Vector = the embedding; store finds nearest neighbors by similarity.</td>
+              <td>ChromaDB at <code>data/chroma/</code>, cosine space, default top‑k = 4.</td>
+            </tr>
+            <tr>
+              <td><strong>Generation</strong></td>
+              <td>Write the final answer from retrieved text.</td>
+              <td>OpenAI <em>or</em> Ollama (see F1).</td>
+            </tr>
+          </tbody>
+        </table>
+        <p><strong>30-second pitch:</strong> Policies are chunked, embedded with MiniLM, stored in Chroma; at ask time we retrieve top similar chunks and only then call OpenAI/Ollama so answers stay grounded in docs.</p>
+      </details>
+
+      <details>
+        <summary>F4. How MiniLM turns a chunk into an embedding (attention?)</summary>
+        <p><strong>Yes — it uses Transformer self-attention.</strong> Not TF‑IDF / bag-of-words.</p>
+        <pre>1) Tokenize text → token IDs
+2) Token embedding + position embedding → input vectors
+3) 6-layer Transformer (multi-head self-attention + FFN)
+4) Mean-pool token outputs → one sentence vector (~384-d)
+5) L2 normalize (our code: normalize_embeddings=True)
+   → ready for cosine search in Chroma</pre>
+        <p>Attention (simplified): tokens look at each other with</p>
+        <pre>Attention(Q,K,V) = softmax(QKᵀ / √d) · V</pre>
+        <p>So “shipping” can attend to “days”, “standard”, etc., and get a <em>context-aware</em> representation before pooling.</p>
+      </details>
+
+      <details>
+        <summary>F5. Token embeddings + position embeddings (step 2 detail)</summary>
+        <p>Machines don’t understand words — they compute on numbers. After tokenization you only have integer IDs.</p>
+        <ul>
+          <li><strong>Token embedding:</strong> lookup table <code>E_token[id]</code> → dense vector (learned meaning starter for that subword/word).</li>
+          <li><strong>Position embedding:</strong> lookup <code>E_pos[index]</code> → vector for order (Transformers don’t know sequence without this).</li>
+          <li><strong>Combine:</strong> <code>x_i = e_token(t_i) + e_pos(i)</code> — that sum is the input to attention layers.</li>
+        </ul>
+        <p class="muted">Token embedding ≠ the vocab ID itself. The ID is just a key; the embedding is the learned float vector. Context mixing happens next via attention, not in this step.</p>
+        <p><strong>Say this:</strong> “Token embedding maps tokens to numerical vectors the network can process; position embedding adds word order; then self-attention builds context.”</p>
+      </details>
+    </section>
+
+    <section id="streamlit">
+      <h2>7. Streamlit UI — chat, sources, reindex, upload</h2>
+      <p class="muted">File: <code>app/streamlit_app.py</code> · Run: <code>streamlit run app/streamlit_app.py</code></p>
+
+      <div class="callout">
+        <strong>What Streamlit is here:</strong> a Python web UI library. We did not build React for this demo.
+        One script draws the page: sidebar controls + chat + retrieved-context panel. It calls <code>RAGPipeline</code> under the hood.
+      </div>
+
+      <h3>Layout (what you see)</h3>
+      <pre>┌──────────────── sidebar ────────────────┐  ┌──────── chat ────────┐  ┌── retrieved context ──┐
+│ Top-K slider                            │  │ message history      │  │ chunk snippets+scores │
+│ Chunks / LLM / embedding health         │  │ chat_input           │  │ example question btns │
+│ [Reindex knowledge base]                │  │ answer + sources     │  │                        │
+│ file_uploader + [Ingest upload]         │  │                      │  │                        │
+└─────────────────────────────────────────┘  └──────────────────────┘  └────────────────────────┘</pre>
+
+      <details open>
+        <summary>A. Startup — how the pipeline is loaded</summary>
+        <p><strong>What:</strong> On first use, Streamlit loads the embedding model + Chroma store once and reuses them.</p>
+        <p><strong>How:</strong> <code>@st.cache_resource</code> wraps <code>get_pipeline()</code> → creates <code>RAGPipeline()</code> → <code>ensure_ready()</code>
+        (if Chroma is empty, ingest <code>knowledge_base/</code> automatically).</p>
+        <p><strong>Why:</strong> Loading MiniLM every click would be slow. Cache keeps one pipeline alive for the app process.</p>
+        <pre>@st.cache_resource
+def get_pipeline():
+    pipe = RAGPipeline()
+    pipe.ensure_ready()   # ingest KB if store empty
+    return pipe</pre>
+      </details>
+
+      <details open>
+        <summary>B. Chat — what it is and how it works</summary>
+        <p><strong>What:</strong> A conversational UI. User types a CX question; the app shows an assistant answer grounded in policies.</p>
+        <p><strong>For what:</strong> Demo the full RAG loop to interviewers / users without a custom frontend.</p>
+        <p><strong>How (step by step):</strong></p>
+        <ol>
+          <li>Chat history lives in <code>st.session_state.messages</code> (list of <code>{role, content, sources?}</code>).</li>
+          <li>User types in <code>st.chat_input(...)</code>.</li>
+          <li>App appends the user message, then calls <code>pipe.ask(prompt, top_k=top_k)</code>.</li>
+          <li><code>ask</code> = embed question → Chroma top‑k → LLM (OpenAI/Ollama) with grounded prompt.</li>
+          <li>Answer is shown with <code>st.chat_message("assistant")</code>; message saved back into session state.</li>
+        </ol>
+        <pre>result = pipe.ask(prompt, top_k=top_k)
+# result keys: answer, backend, sources[{source, score, snippet}], ...</pre>
+        <p><strong>Top‑K slider:</strong> sidebar control (1–8) passed into <code>ask</code> so you can show how more/fewer chunks change answers.</p>
+      </details>
+
+      <details open>
+        <summary>C. Sources — what they are and why they matter</summary>
+        <p><strong>What:</strong> Provenance for the answer — which knowledge chunks were retrieved and how similar they were (score).</p>
+        <p><strong>For what:</strong> Trust &amp; interview demo. Shows the answer is grounded in docs, not free hallucination. Lets you debug bad retrieval.</p>
+        <p><strong>How:</strong></p>
+        <ul>
+          <li><code>generate_answer</code> returns <code>sources</code>: file path, cosine-ish score, short snippet.</li>
+          <li>In chat: expander <strong>Sources used</strong> under each assistant message (file + score).</li>
+          <li>Right panel <strong>Retrieved context</strong>: expanders with snippet text from <code>st.session_state.last_result</code>.</li>
+        </ul>
+        <p class="muted">Score ≈ similarity (from Chroma distance). Higher ≈ closer match to the question embedding.</p>
+      </details>
+
+      <details open>
+        <summary>D. Reindex — what / why / how</summary>
+        <p><strong>What:</strong> Wipe the current Chroma collection and rebuild it from files currently in <code>knowledge_base/</code>.</p>
+        <p><strong>For what:</strong> After you edit policy markdown (e.g. change return window), the old vectors would be stale. Reindex refreshes the search index.</p>
+        <p><strong>How (button “Reindex knowledge base”):</strong></p>
+        <ol>
+          <li><code>get_pipeline.clear()</code> — drop Streamlit’s cached pipeline instance.</li>
+          <li>Create pipeline again via <code>get_pipeline()</code>.</li>
+          <li><code>pipe.reindex()</code> → <code>ingest_knowledge_base(store, clear=True)</code>:
+            delete collection → read all <code>.md/.txt/.pdf</code> in KB → chunk → embed → upsert.</li>
+          <li>Show success counts → <code>st.rerun()</code> refresh UI.</li>
+        </ol>
+        <pre>if st.button("Reindex knowledge base"):
+    get_pipeline.clear()
+    pipe = get_pipeline()
+    result = pipe.reindex()   # clear=True ingest of knowledge_base/</pre>
+        <div class="callout warn">
+          Reindex rebuilds from <code>knowledge_base/</code> only. Extra files you uploaded earlier are <em>not</em> in that folder unless you saved them there — they may disappear after a full reindex.
+        </div>
+      </details>
+
+      <details open>
+        <summary>E. Upload — what / why / how</summary>
+        <p><strong>What:</strong> Add an extra <code>.txt</code> / <code>.md</code> / <code>.pdf</code> into the live Chroma index without restarting the app.</p>
+        <p><strong>For what:</strong> Interview demo: “Here’s a new policy snippet — ask a question that needs it.” Mimics real ops dropping a new SOP into the system.</p>
+        <p><strong>How (uploader + “Ingest upload”):</strong></p>
+        <ol>
+          <li><code>st.file_uploader</code> accepts the file bytes in memory.</li>
+          <li>Write bytes to a temp file (so ingest can use a real path + extension).</li>
+          <li><code>pipe.ingest_file(tmp_path)</code> → <code>ingest_paths</code>: read → chunk → embed → <strong>upsert</strong> (append into existing store, does not wipe KB).</li>
+          <li>Success message with new chunk count → rerun.</li>
+        </ol>
+        <pre>uploaded = st.file_uploader(..., type=["txt", "md", "pdf"])
+# save to tempfile → pipe.ingest_file(tmp_path)</pre>
+        <p><strong>Reindex vs Upload (say this):</strong></p>
+        <table>
+          <thead><tr><th></th><th>Reindex</th><th>Upload</th></tr></thead>
+          <tbody>
+            <tr><td>Source</td><td>All of <code>knowledge_base/</code></td><td>One uploaded file</td></tr>
+            <tr><td>Clears store?</td><td>Yes (rebuild)</td><td>No (append)</td></tr>
+            <tr><td>When</td><td>After editing KB files</td><td>Live demo of new doc</td></tr>
+          </tbody>
+        </table>
+      </details>
+
+      <details>
+        <summary>F. Extra UI pieces</summary>
+        <ul>
+          <li><strong>Health lines:</strong> chunk count, LLM backend name, embedding model — proves which path is active.</li>
+          <li><strong>Example buttons:</strong> set <code>pending_example</code>, rerun, then call <code>pipe.ask</code> like a typed question.</li>
+          <li><strong>Two columns:</strong> left = conversation; right = inspect retrieval (great for explaining RAG live).</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>G. 30-second interview explanation</summary>
+        <p>
+          “Streamlit is the front door. Chat calls <code>RAGPipeline.ask</code>: retrieve then generate.
+          Sources panel shows which chunks backed the answer. Reindex rebuilds Chroma from
+          <code>knowledge_base/</code> after policy edits. Upload appends a new file into the index for live demos.”
+        </p>
+      </details>
+    </section>
+
     <section id="scenarios">
-      <h2>6. Scenario-based interview questions</h2>
+      <h2>8. Scenario-based interview questions</h2>
 
       <details open>
         <summary>S1. Customer asks: “What is the electronics return window?”</summary>
@@ -443,7 +669,7 @@ ELSE
     </section>
 
     <section id="qa">
-      <h2>7. Rapid-fire Q&amp;A bank</h2>
+      <h2>9. Rapid-fire Q&amp;A bank</h2>
       <table>
         <thead>
           <tr><th>Question</th><th>Strong answer sketch</th></tr>
@@ -462,8 +688,16 @@ ELSE
             <td>Improves retrieval precision; fits embedding model practical limits; overlap reduces boundary loss.</td>
           </tr>
           <tr>
-            <td>What is stored in Chroma?</td>
-            <td>Chunk id, text, embedding vector, metadata (source, index).</td>
+            <td>What does Reindex vs Upload do?</td>
+            <td>Reindex: clear + rebuild from <code>knowledge_base/</code>. Upload: append one file into Chroma without wiping.</td>
+          </tr>
+          <tr>
+            <td>How does Streamlit chat call RAG?</td>
+            <td><code>pipe.ask(question, top_k)</code> → retrieve chunks → LLM answer; sources shown in chat + right panel.</td>
+          </tr>
+          <tr>
+            <td>Why OpenAI and Ollama?</td>
+            <td>One chat backend at a time: key → OpenAI; else Ollama for local/free. MiniLM is embeddings only.</td>
           </tr>
           <tr>
             <td>How do you evaluate?</td>
@@ -482,7 +716,7 @@ ELSE
     </section>
 
     <section id="mistakes">
-      <h2>8. Common interview traps (avoid these)</h2>
+      <h2>10. Common interview traps (avoid these)</h2>
       <div class="callout warn">
         <ul>
           <li>Saying “I trained Llama on PDFs” when you only did RAG indexing.</li>
@@ -504,7 +738,7 @@ ELSE
     </section>
 
     <section>
-      <h2>9. Suggested demo script (3 minutes)</h2>
+      <h2>11. Suggested demo script (3 minutes)</h2>
       <ol>
         <li>Show <code>knowledge_base/returns.md</code> electronics = 15 days.</li>
         <li>Ask the question in Streamlit; show retrieved chunk panel.</li>
@@ -516,7 +750,7 @@ ELSE
   </main>
 
   <footer>
-    RAG Customer Experience Automation System — Interview Guide (HTML) · companion docs in Markdown
+    PolicyPilot — Interview Guide (HTML) · companion docs in Markdown
   </footer>
 </body>
 </html>

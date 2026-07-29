@@ -1,4 +1,4 @@
-# RAG Customer Experience Automation System
+# PolicyPilot
 
 AI-powered customer support assistant that **retrieves** policy knowledge and **generates grounded answers** for shipping, billing, returns, and support questions.
 
@@ -17,12 +17,12 @@ LLM backends:
 - **OpenAI** (or any OpenAI-compatible API) when `OPENAI_API_KEY` is set
 - otherwise **Ollama** at `OLLAMA_BASE_URL` / `OLLAMA_MODEL`
 
-> This project does **not** fine-tune a custom LLM by default. It uses retrieval + an existing chat model. Optional embedding / domain fine-tuning steps are documented in [`docs/TRAINING_GUIDE.md`](docs/TRAINING_GUIDE.md).
+> PolicyPilot does **not** fine-tune a custom LLM by default. It uses retrieval + an existing chat model (RAG). Optional embedding / domain fine-tuning steps are documented in [`docs/TRAINING_GUIDE.md`](docs/TRAINING_GUIDE.md).
 
 ## Quick start
 
 ```powershell
-cd e:\Plan30\RAG-Customer-Experience
+cd e:\Projects\RAG-Customer-Experience
 python -m venv .venv
 .\.venv\Scripts\activate
 python -m pip install -r requirements.txt
@@ -48,7 +48,7 @@ Full command list: [`RUNBOOK.md`](RUNBOOK.md).
 ## Project layout
 
 ```text
-RAG-Customer-Experience/
+PolicyPilot/   (repo folder may still be RAG-Customer-Experience)
 ├── app/
 │   ├── config.py
 │   ├── streamlit_app.py          # Deployable Streamlit UI
@@ -65,7 +65,7 @@ RAG-Customer-Experience/
 │   ├── ARCHITECTURE.md
 │   ├── DATA_SOURCES.md
 │   └── TRAINING_GUIDE.md
-├── INTERVIEW_GUIDE.html
+├── PolicyPilot.html              # Interview guide (open in browser)
 ├── RUNBOOK.md
 ├── README.md
 ├── requirements.txt
@@ -87,7 +87,7 @@ RAG-Customer-Experience/
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | System design + diagrams |
 | [`docs/DATA_SOURCES.md`](docs/DATA_SOURCES.md) | Where knowledge / training data comes from |
 | [`docs/TRAINING_GUIDE.md`](docs/TRAINING_GUIDE.md) | Step-by-step when (and when not) to train |
-| [`INTERVIEW_GUIDE.html`](INTERVIEW_GUIDE.html) | Interview prep (open in browser) |
+| [`PolicyPilot.html`](PolicyPilot.html) | Interview prep (open in browser) |
 
 ## Python version note
 
@@ -95,4 +95,4 @@ Use **Python 3.11 or 3.12** if `torch` / `chromadb` / `sentence-transformers` fa
 
 ## Resume one-liner
 
-**RAG Customer Experience Automation System** — Fast retrieval over CX policy docs with local embeddings (Chroma) and grounded answers via OpenAI/Ollama, exposed through a Streamlit chat UI.
+**PolicyPilot** — Fast retrieval over CX policy docs with local embeddings (Chroma) and grounded answers via OpenAI/Ollama, exposed through a Streamlit chat UI.

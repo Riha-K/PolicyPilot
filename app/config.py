@@ -30,7 +30,7 @@ class Settings:
     if not chroma_dir.is_absolute():
         chroma_dir = ROOT / chroma_dir
 
-    collection_name: str = os.getenv("COLLECTION_NAME", "cx_knowledge")
+    collection_name: str = os.getenv("COLLECTION_NAME", "policy_pilot")
     embedding_model: str = os.getenv(
         "EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2"
     )

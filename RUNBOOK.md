@@ -1,4 +1,4 @@
-# Runbook — RAG Customer Experience
+# Runbook — PolicyPilot
 
 All commands below assume **PowerShell on Windows**. Adjust paths if your clone lives elsewhere.
 
@@ -20,7 +20,7 @@ python --version
 ## 1. Go to project folder
 
 ```powershell
-cd e:\Plan30\RAG-Customer-Experience
+cd e:\Projects\RAG-Customer-Experience
 ```
 
 ## 2. Create and activate virtual environment
@@ -85,7 +85,7 @@ OLLAMA_MODEL=llama3.2
 From the project root with `.venv` active:
 
 ```powershell
-cd e:\Plan30\RAG-Customer-Experience
+cd e:\Projects\RAG-Customer-Experience
 .\.venv\Scripts\activate
 streamlit run app/streamlit_app.py
 ```
@@ -154,7 +154,7 @@ Or use the **Reindex** button in the sidebar.
 
 | Symptom | Fix |
 |---------|-----|
-| `ModuleNotFoundError: app` | Run Streamlit from project root (`RAG-Customer-Experience`) |
+| `ModuleNotFoundError: app` | Run Streamlit from project root (PolicyPilot / `RAG-Customer-Experience` folder) |
 | Ollama errors in answer | `ollama serve` + `ollama pull llama3.2` |
 | Empty / weak answers | Reindex; check `knowledge_base/` files exist |
 | Embedding download slow | First run only; needs internet once |
@@ -165,11 +165,11 @@ Or use the **Reindex** button in the sidebar.
 
 | Path | Role |
 |------|------|
-| `e:\Plan30\RAG-Customer-Experience` | Project root — **run commands here** |
+| `e:\Projects\RAG-Customer-Experience` | Project root — **run commands here** |
 | `knowledge_base\` | Source documents for retrieval |
 | `data\chroma\` | Persistent vector DB |
 | `.env` | Secrets and model names |
-| `INTERVIEW_GUIDE.html` | Open in browser for interview prep |
+| `PolicyPilot.html` | Open in browser for interview prep |
 
 ## 12. Stop the app
 

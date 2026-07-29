@@ -129,4 +129,4 @@ Example `qa_pairs.jsonl` line:
 
 ## 6. Interview-ready summary
 
-> “The system is grounded on a curated CX knowledge base. At runtime we embed those docs into Chroma. User questions retrieve top‑k chunks. The LLM answers only from that context. We don’t train the chat model on company data by default—updating policies means updating documents and reindexing, which is the operational advantage of RAG.”
+> “PolicyPilot is grounded on a curated CX knowledge base. At runtime we embed those docs into Chroma. User questions retrieve top‑k chunks. The LLM answers only from that context. We don’t train the chat model on company data by default—updating policies means updating documents and reindexing, which is the operational advantage of RAG.”
