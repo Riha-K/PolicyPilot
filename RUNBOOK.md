@@ -20,7 +20,7 @@ python --version
 ## 1. Go to project folder
 
 ```powershell
-cd e:\Projects\RAG-Customer-Experience
+cd e:\Projects\PolicyPilot
 ```
 
 ## 2. Create and activate virtual environment
@@ -85,7 +85,7 @@ OLLAMA_MODEL=llama3.2
 From the project root with `.venv` active:
 
 ```powershell
-cd e:\Projects\RAG-Customer-Experience
+cd e:\Projects\PolicyPilot
 .\.venv\Scripts\activate
 streamlit run app/streamlit_app.py
 ```
@@ -154,7 +154,7 @@ Or use the **Reindex** button in the sidebar.
 
 | Symptom | Fix |
 |---------|-----|
-| `ModuleNotFoundError: app` | Run Streamlit from project root (PolicyPilot / `RAG-Customer-Experience` folder) |
+| `ModuleNotFoundError: app` | Run Streamlit from project root (`PolicyPilot`) |
 | Ollama errors in answer | `ollama serve` + `ollama pull llama3.2` |
 | Empty / weak answers | Reindex; check `knowledge_base/` files exist |
 | Embedding download slow | First run only; needs internet once |
@@ -165,7 +165,7 @@ Or use the **Reindex** button in the sidebar.
 
 | Path | Role |
 |------|------|
-| `e:\Projects\RAG-Customer-Experience` | Project root — **run commands here** |
+| `e:\Projects\PolicyPilot` | Project root — **run commands here** |
 | `knowledge_base\` | Source documents for retrieval |
 | `data\chroma\` | Persistent vector DB |
 | `.env` | Secrets and model names |

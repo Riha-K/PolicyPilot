@@ -22,7 +22,7 @@ LLM backends:
 ## Quick start
 
 ```powershell
-cd e:\Projects\RAG-Customer-Experience
+cd e:\Projects\PolicyPilot
 python -m venv .venv
 .\.venv\Scripts\activate
 python -m pip install -r requirements.txt
@@ -48,7 +48,7 @@ Full command list: [`RUNBOOK.md`](RUNBOOK.md).
 ## Project layout
 
 ```text
-PolicyPilot/   (repo folder may still be RAG-Customer-Experience)
+PolicyPilot/
 ├── app/
 │   ├── config.py
 │   ├── streamlit_app.py          # Deployable Streamlit UI
