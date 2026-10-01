@@ -40,6 +40,19 @@ Command list, deploy steps, and fixes: [`RUNBOOK.md`](RUNBOOK.md).
 
 Use **Python 3.11 or 3.12** if `torch`, `chromadb`, or `sentence-transformers` fail on 3.13.
 
+## Defaults
+
+Every value below can be overridden in `.env` (see `app/config.py`).
+
+| Setting | Default |
+| --- | --- |
+| `CHUNK_SIZE` / `CHUNK_OVERLAP` | 700 / 120 characters |
+| `TOP_K` | 4 retrieved chunks |
+| `EMBEDDING_MODEL` | `sentence-transformers/all-MiniLM-L6-v2` |
+| `COLLECTION_NAME` | `policy_pilot` |
+| `OPENAI_MODEL` | `gpt-4o-mini` |
+| `OLLAMA_MODEL` / `OLLAMA_BASE_URL` | `llama3.2` / `http://127.0.0.1:11434` |
+
 ## Layout
 
 ```text
