@@ -26,7 +26,7 @@ python --version
 ## 1. Go to project folder
 
 ```powershell
-cd e:\Projects\PolicyPilot
+cd path\to\PolicyPilot
 ```
 
 ## 2. Create and activate virtual environment
@@ -99,7 +99,7 @@ OLLAMA_MODEL=llama3.2
 From the project root with `.venv` active:
 
 ```powershell
-cd e:\Projects\PolicyPilot
+cd path\to\PolicyPilot
 .\.venv\Scripts\activate
 streamlit run app/streamlit_app.py
 ```
@@ -193,7 +193,7 @@ Or use the **Reindex** button in the sidebar.
 
 | Path                      | Role                                 |
 | ------------------------- | ------------------------------------ |
-| `e:\Projects\PolicyPilot` | Project root — **run commands here** |
+| `path\to\PolicyPilot`     | Project root — **run commands here** |
 | `knowledge_base\`         | Source documents for retrieval       |
 | `data\chroma\`            | Persistent vector DB                 |
 | `.env`                    | Secrets and model names              |
