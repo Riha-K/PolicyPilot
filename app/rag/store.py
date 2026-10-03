@@ -62,8 +62,8 @@ class VectorStore:
         )
 
     def query(self, embedding: list[float], top_k: int | None = None) -> list[RetrievedChunk]:
-        k = top_k or settings.top_k
-        if self.count() == 0:
+        k = settings.top_k if top_k is None else top_k
+        if self.count() == 0 or k < 1:
             return []
         k = min(k, self.count())
         result = self.collection.query(

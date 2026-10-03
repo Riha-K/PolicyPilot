@@ -83,7 +83,13 @@ def ingest_knowledge_base(store: VectorStore | None = None, clear: bool = False)
         store.clear()
     files = iter_kb_files()
     result = ingest_paths(files, store=store)
-    result["sources"] = [str(p.relative_to(settings.knowledge_base_dir)) for p in files]
+    sources = []
+    for path in files:
+        try:
+            sources.append(str(path.relative_to(settings.knowledge_base_dir)))
+        except ValueError:
+            sources.append(path.name)
+    result["sources"] = sources
     return result
 
 

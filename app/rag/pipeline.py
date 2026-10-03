@@ -29,9 +29,12 @@ class RAGPipeline:
         return self.store.query(embedding, top_k=top_k or settings.top_k)
 
     def ask(self, question: str, top_k: int | None = None) -> dict:
+        cleaned = (question or "").strip()
+        if not cleaned:
+            raise ValueError("question is empty")
         self.ensure_ready()
-        chunks = self.retrieve(question, top_k=top_k)
-        result = generate_answer(question, chunks)
+        chunks = self.retrieve(cleaned, top_k=top_k)
+        result = generate_answer(cleaned, chunks)
         result["top_k"] = top_k or settings.top_k
         result["chunk_count"] = self.store.count()
         return result
