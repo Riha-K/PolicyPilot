@@ -39,7 +39,11 @@ def split_text(text: str, chunk_size: int = 700, overlap: int = 120) -> list[str
             chunks.append(piece)
         if end >= n:
             break
-        start = max(0, end - overlap)
+        next_start = end - overlap
+        # Overlap must not stall the window, or a large overlap loops forever.
+        if next_start <= start:
+            next_start = end
+        start = next_start
     return chunks
 
 
