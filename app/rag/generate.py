@@ -94,6 +94,8 @@ def _generate_openai(user_prompt: str) -> str:
             {"role": "user", "content": user_prompt},
         ],
     )
+    if not resp.choices or resp.choices[0].message is None:
+        raise RuntimeError("OpenAI returned no completion")
     return (resp.choices[0].message.content or "").strip()
 
 

@@ -64,8 +64,11 @@ def main() -> None:
             with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
                 tmp.write(uploaded.getvalue())
                 tmp_path = Path(tmp.name)
-            with st.spinner("Embedding & indexing upload..."):
-                result = pipe.ingest_file(tmp_path)
+            try:
+                with st.spinner("Embedding & indexing upload..."):
+                    result = pipe.ingest_file(tmp_path)
+            finally:
+                tmp_path.unlink(missing_ok=True)
             st.success(f"Added {result.get('chunks', 0)} chunks. Store total: {result.get('total_in_store', 0)}")
             st.rerun()
 
@@ -98,7 +101,11 @@ def main() -> None:
 
             with st.chat_message("assistant"):
                 with st.spinner("Retrieving context & generating answer..."):
-                    result = pipe.ask(prompt, top_k=top_k)
+                    try:
+                        result = pipe.ask(prompt, top_k=top_k)
+                    except ValueError as exc:
+                        st.error(str(exc))
+                        st.stop()
                 answer = result.get("answer", "")
                 sources = result.get("sources", [])
                 st.markdown(answer)

@@ -17,6 +17,10 @@ def split_text(text: str, chunk_size: int = 700, overlap: int = 120) -> list[str
     """Split text into overlapping character windows, preferring paragraph breaks."""
     cleaned = "\n".join(line.rstrip() for line in text.replace("\r\n", "\n").split("\n"))
     cleaned = cleaned.strip()
+    if chunk_size < 1:
+        raise ValueError("chunk_size must be positive")
+    if overlap < 0:
+        overlap = 0
     if not cleaned:
         return []
 

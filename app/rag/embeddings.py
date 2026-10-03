@@ -24,4 +24,7 @@ def embed_texts(texts: Sequence[str]) -> list[list[float]]:
 
 
 def embed_query(text: str) -> list[float]:
-    return embed_texts([text])[0]
+    cleaned = (text or "").strip()
+    if not cleaned:
+        raise ValueError("query text is empty")
+    return embed_texts([cleaned])[0]
