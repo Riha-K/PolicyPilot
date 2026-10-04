@@ -27,8 +27,8 @@ Use this guide only if an interviewer asks “how would you train/improve it?”
 | Action | Effect |
 |--------|--------|
 | Cleaner source docs | Better chunks |
-| Tune `CHUNK_SIZE` / `CHUNK_OVERLAP` | Better retrieval granularity |
-| Increase `TOP_K` carefully | More context (may add noise) |
+| Tune `CHUNK_SIZE` / `CHUNK_OVERLAP` (defaults 700 and 120) | Better retrieval granularity |
+| Increase `TOP_K` carefully (default 4) | More context (may add noise) |
 | Stronger chat model | Better phrasing / instruction following |
 | Better system prompt | Fewer hallucinations |
 
