@@ -1,4 +1,3 @@
-"""
 CX knowledge base notes for FAQ-style snippets.
 
 Refund FAQ
@@ -12,4 +11,3 @@ A: Once shipped, cancel is not available. Use the returns flow after delivery in
 Password Reset FAQ
 Q: I did not receive a reset email.
 A: Check spam, confirm the account email, then wait 10 minutes before requesting another reset link.
-"""
