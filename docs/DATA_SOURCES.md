@@ -46,7 +46,7 @@ Synthetic but realistic **customer-experience policy documents** written for thi
 ### How it enters the system
 
 1. Files are read at ingest / first app start
-2. Split into chunks (`CHUNK_SIZE`, `CHUNK_OVERLAP`)
+2. Split into chunks (`CHUNK_SIZE` 700, `CHUNK_OVERLAP` 120)
 3. Embedded with `sentence-transformers/all-MiniLM-L6-v2`
 4. Stored in `data/chroma/`
 
