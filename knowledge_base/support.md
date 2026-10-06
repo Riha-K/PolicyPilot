@@ -18,6 +18,7 @@ When contacting support, include:
 - Legal/privacy requests escalate to the compliance team and may take up to **10 business days**.
 
 ## Account Security
+- A password-reset email can take up to 10 minutes to arrive.
 - Never share one-time passwords (OTP) with anyone claiming to be support.
 - Official agents will never ask for full card numbers over chat.
 - If account takeover is suspected, reset the password and contact support immediately.
