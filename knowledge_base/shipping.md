@@ -17,7 +17,7 @@
 
 ## Tracking
 - A tracking link is emailed when the order ships.
-- Tracking may take up to **24 hours** to update after label creation.
+- Tracking may take up to **24 hours** to show the first carrier scan after the label is created.
 - If tracking shows no movement for **5 business days**, contact support with the order ID.
 
 ## Damaged or Lost Packages
