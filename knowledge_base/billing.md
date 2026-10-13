@@ -24,4 +24,4 @@
 ## Failed Payments
 - An authorization hold may appear temporarily even when checkout fails.
 - Failed-payment holds typically release automatically in **1–7 business days**, depending on the bank.
-- A failed payment does not create a confirmed order.
+- A failed payment does not create a confirmed order, so the same cart can be submitted again.
