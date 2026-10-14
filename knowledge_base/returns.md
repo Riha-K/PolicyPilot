@@ -12,6 +12,7 @@
 4. Drop the package at an approved carrier location within **7 days** of creating the return.
 
 ## Refund Timing After Return
+- Creating the return does not refund the order by itself.
 - Once the warehouse receives and inspects the item, refund approval usually takes **2–4 business days**.
 - Refunds then follow the Billing policy timelines for the payment method.
 
