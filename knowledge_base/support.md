@@ -2,7 +2,7 @@
 
 ## Contact Channels
 - In-app chat: average first response under **5 minutes** during business hours.
-- Email: support@example-cx.com — responses within **24 hours**.
+- Email: support@example-cx.com — responses within **24 hours** on business days.
 - Phone: available Monday–Friday, **9:00 AM – 6:00 PM** local support timezone.
 
 ## What to Provide
