@@ -1,4 +1,4 @@
-# Billing and Payments Policy
+# Billing and Payment Policy
 
 ## Accepted Payment Methods
 - We accept major credit/debit cards, UPI (where available), and approved digital wallets.
