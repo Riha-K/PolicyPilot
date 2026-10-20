@@ -1,4 +1,4 @@
-# Shipping Policy
+# Shipping and Delivery Policy
 
 ## Standard Domestic Shipping
 - Standard shipping for domestic orders typically arrives in **3–7 business days** after dispatch.
