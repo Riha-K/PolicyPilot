@@ -1,4 +1,4 @@
-# Returns and Exchanges Policy
+# Returns and Exchange Policy
 
 ## Return Window
 - Most items can be returned within **30 days** of delivery if unused and in original packaging.
