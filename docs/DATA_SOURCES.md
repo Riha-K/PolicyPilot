@@ -127,6 +127,25 @@ Example `qa_pairs.jsonl` line:
 
 ---
 
-## 6. Interview-ready summary
+## 6. Refreshing the knowledge base
+
+When a policy changes (shipping window, refund rule, FAQ answer):
+
+1. Edit the matching file under `knowledge_base/` (or add a new `.md` / `.txt` / `.pdf`).
+2. Re-run ingest so chunks and embeddings are rebuilt into ChromaDB.
+3. Ask the same question again in the Streamlit UI and confirm the cited snippets match the new text.
+
+You do **not** need to fine-tune the chat model for a policy edit. That is the main operational reason this project uses RAG instead of baking answers into model weights.
+
+Suggested checklist before a demo:
+
+- [ ] All five knowledge files are present and readable
+- [ ] Ingest completed without missing-file warnings
+- [ ] A billing, shipping, and returns question each return a grounded answer
+- [ ] Empty / off-topic questions fail closed (no invented policy)
+
+---
+
+## 7. Interview-ready summary
 
 > “PolicyPilot is grounded on a curated CX knowledge base. At runtime we embed those docs into Chroma. User questions retrieve top‑k chunks. The LLM answers only from that context. We don’t train the chat model on company data by default—updating policies means updating documents and reindexing, which is the operational advantage of RAG.”
