@@ -1,4 +1,4 @@
-CX knowledge base notes for FAQ-style snippets.
+CX knowledge base notes for short FAQ-style snippets.
 
 Refund FAQ
 Q: Can I get a refund before the item is returned?
