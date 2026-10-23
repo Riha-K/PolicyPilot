@@ -143,3 +143,19 @@ Be precise:
 - Strip PII before any fine-tune
 - Keep evaluation set that checks for invented refund amounts / fake policies
 - Prefer RAG updates for policy changes; use training for style/skill, not daily policy edits
+
+---
+
+## Path F — Failure modes before you touch training
+
+Use this checklist when answers look wrong. Most “we need to train” moments are actually retrieval or prompt issues.
+
+| Symptom | Check first | Fix without training |
+| --- | --- | --- |
+| Invented refund / shipping rule | Was the right doc in top‑k? | Reindex; tighten chunk size; raise/lower `TOP_K`; strengthen “answer only from context” prompt |
+| Right doc retrieved, wrong wording | Prompt / model following | Better system prompt; switch chat model; add 1–2 few-shot grounded answers |
+| Off-topic question gets a confident lie | No refusal path | Explicit refuse when retrieval score is low or context empty |
+| Stale policy after an edit | Old Chroma collection | Delete index / re-run ingest after editing `knowledge_base/` |
+| Slow first answer | Embedding model download | Pre-download `all-MiniLM-L6-v2`; keep Ollama model warm |
+
+**Interview line:** “I debug retrieval and prompts before I propose fine-tuning. Training is for systematic gaps, not one bad demo answer.”
