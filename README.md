@@ -1,6 +1,6 @@
 # PolicyPilot
 
-Python assistant for customer-experience policy questions on shipping, billing, returns, and support. It retrieves the relevant policy text and answers only from that text, in a Streamlit chat.
+Python assistant for customer-experience policy questions on shipping, billing, returns, and support. It retrieves the relevant policy text and answers only from that context, in a Streamlit chat.
 
 ## What it does
 
