@@ -4,6 +4,7 @@
 
 Answer customer questions using **company knowledge**, not model memorization. The system retrieves relevant policy chunks, then asks an LLM to answer **only from that context**.
 
+
 ## High-level diagram
 
 ```text
@@ -43,11 +44,9 @@ Answer customer questions using **company knowledge**, not model memorization. T
        │         │ user prompt (context+question│
        │         └──────────────┬───────────────┘
        │                        │
-       │            ┌───────────┴───────────┐
-       │            ▼                       ▼
-       │     OpenAI API                 Ollama
-       │   (if API key set)         (local default)
-       │            └───────────┬───────────┘
+       │                        ▼
+       │                     Ollama
+       │                  (local LLM)
        │                        ▼
        └──────────────────  answer + sources
 ```
@@ -72,7 +71,7 @@ User question
 | `app/rag/embeddings.py` | Local embedding model (cached) |
 | `app/rag/store.py` | Persistent Chroma collection |
 | `app/rag/ingest.py` | Read files, chunk, embed, upsert |
-| `app/rag/generate.py` | System prompt + OpenAI/Ollama call |
+| `app/rag/generate.py` | System prompt + Ollama call |
 | `app/rag/pipeline.py` | Orchestrates ensure → retrieve → generate |
 | `app/config.py` | Env-driven settings |
 
@@ -85,7 +84,7 @@ User question
 | Chroma persistent store | Survives restarts; simple for a demo/deployable app |
 | Grounded system prompt | Reduces hallucinations; answers cite policy constraints |
 | Streamlit | Fast interactive UI; easy local + cloud deploy |
-| OpenAI **or** Ollama | Works with cloud key or fully local demo |
+| Local Ollama | Fully local demo; no API key required |
 
 ## Data flow for ingest
 
