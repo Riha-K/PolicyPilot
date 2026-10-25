@@ -1,4 +1,4 @@
-"""LLM generation with OpenAI or Ollama backends."""
+"""LLM generation with local Ollama."""
 
 from __future__ import annotations
 
@@ -31,14 +31,14 @@ def build_user_prompt(question: str, chunks: list[RetrievedChunk]) -> str:
 
 
 def _extractive_fallback(question: str, chunks: list[RetrievedChunk]) -> str:
-    """Return a useful answer from retrieved text when no LLM is reachable."""
+    """Return a useful answer from retrieved text when Ollama is unreachable."""
     if not chunks:
         return (
-            "No relevant policy chunks were retrieved, and no LLM backend is available. "
-            "Add documents to knowledge_base/ or configure OpenAI/Ollama."
+            "No relevant policy chunks were retrieved, and Ollama is not available. "
+            "Add documents to knowledge_base/ or start Ollama (`ollama pull llama3.2`)."
         )
     lines = [
-        f"**Extractive answer** (LLM unavailable — showing top retrieved policy text for: _{question}_)",
+        f"**Extractive answer** (Ollama unavailable — showing top retrieved policy text for: _{question}_)",
         "",
     ]
     for i, c in enumerate(chunks[:3], start=1):
@@ -46,7 +46,7 @@ def _extractive_fallback(question: str, chunks: list[RetrievedChunk]) -> str:
         lines.append(c.text.strip())
         lines.append("")
     lines.append(
-        "_Tip: start Ollama (`ollama pull llama3.2`) or set `OPENAI_API_KEY` in `.env` for generated answers._"
+        "_Tip: start Ollama (`ollama pull llama3.2`) for generated answers._"
     )
     return "\n".join(lines)
 
@@ -55,21 +55,12 @@ def generate_answer(question: str, chunks: list[RetrievedChunk]) -> dict:
     user_prompt = build_user_prompt(question, chunks)
     used_fallback = False
 
-    if settings.use_openai:
-        try:
-            answer = _generate_openai(user_prompt)
-            backend = f"openai:{settings.openai_model}"
-        except Exception as exc:
-            answer = _extractive_fallback(question, chunks) + f"\n\n(OpenAI error: {exc})"
-            backend = "extractive-fallback"
-            used_fallback = True
-    else:
-        answer = _generate_ollama(user_prompt)
-        backend = f"ollama:{settings.ollama_model}"
-        if answer.startswith("Could not reach Ollama"):
-            answer = _extractive_fallback(question, chunks)
-            backend = "extractive-fallback"
-            used_fallback = True
+    answer = _generate_ollama(user_prompt)
+    backend = f"ollama:{settings.ollama_model}"
+    if answer.startswith("Could not reach Ollama"):
+        answer = _extractive_fallback(question, chunks)
+        backend = "extractive-fallback"
+        used_fallback = True
 
     return {
         "answer": answer,
@@ -80,23 +71,6 @@ def generate_answer(question: str, chunks: list[RetrievedChunk]) -> dict:
             for c in chunks
         ],
     }
-
-
-def _generate_openai(user_prompt: str) -> str:
-    from openai import OpenAI
-
-    client = OpenAI(api_key=settings.openai_api_key, base_url=settings.openai_base_url)
-    resp = client.chat.completions.create(
-        model=settings.openai_model,
-        temperature=0.2,
-        messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": user_prompt},
-        ],
-    )
-    if not resp.choices or resp.choices[0].message is None:
-        raise RuntimeError("OpenAI returned no completion")
-    return (resp.choices[0].message.content or "").strip()
 
 
 def _generate_ollama(user_prompt: str) -> str:
@@ -118,6 +92,7 @@ def _generate_ollama(user_prompt: str) -> str:
             return (data.get("message", {}) or {}).get("content", "").strip() or str(data)
     except Exception as exc:
         return (
-            "Could not reach Ollama. Start Ollama and pull a model, or set OPENAI_API_KEY in .env.\n"
+            "Could not reach Ollama. Start Ollama and pull a model "
+            f"(`ollama pull {settings.ollama_model}`).\n"
             f"Details: {exc}"
         )
