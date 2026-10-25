@@ -11,12 +11,9 @@ Python assistant for customer-experience policy questions on shipping, billing, 
 5. For a question: embed it, retrieve the top matches, and ask the chat model to answer from those passages
 6. Show the source passages in the Streamlit UI
 
-Chat model:
+Chat model: local **Ollama** (`OLLAMA_BASE_URL`, `OLLAMA_MODEL`).
 
-- OpenAI, or any OpenAI-compatible API, when `OPENAI_API_KEY` is set
-- otherwise Ollama (`OLLAMA_BASE_URL`, `OLLAMA_MODEL`)
-
-PolicyPilot does not fine-tune a chat model. It is retrieval plus an existing model. Optional embedding work is in [`docs/TRAINING_GUIDE.md`](docs/TRAINING_GUIDE.md).
+PolicyPilot does not fine-tune a chat model. It is retrieval plus a local Ollama model. Optional embedding work is in [`docs/TRAINING_GUIDE.md`](docs/TRAINING_GUIDE.md).
 
 ## Quick start
 
@@ -27,7 +24,7 @@ python -m pip install -r requirements.txt
 copy .env.example .env
 ```
 
-Set `OPENAI_API_KEY` in `.env`, or start Ollama and pull a model:
+Start Ollama and pull a model:
 
 ```powershell
 ollama pull llama3.2
@@ -50,7 +47,6 @@ Every value below can be overridden in `.env` (see `app/config.py`).
 | `TOP_K` | 4 retrieved chunks |
 | `EMBEDDING_MODEL` | `sentence-transformers/all-MiniLM-L6-v2` |
 | `COLLECTION_NAME` | `policy_pilot` |
-| `OPENAI_MODEL` | `gpt-4o-mini` |
 | `OLLAMA_MODEL` / `OLLAMA_BASE_URL` | `llama3.2` / `http://127.0.0.1:11434` |
 
 ## Layout
