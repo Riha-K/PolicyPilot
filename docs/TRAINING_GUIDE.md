@@ -8,7 +8,7 @@ Default pipeline:
 
 1. Index documents (embed + store)
 2. Retrieve chunks
-3. Generate with an existing chat model (OpenAI / Ollama)
+3. Generate with a local Ollama chat model
 
 Use this guide only if an interviewer asks “how would you train/improve it?” or you want higher domain quality.
 
@@ -100,7 +100,7 @@ Use when the model ignores instructions, formats poorly, or needs brand tone.
 2. Fine-tune with Unsloth / Axolotl / Hugging Face TRL on a base instruct model
 3. Export GGUF / adapter
 4. Serve via Ollama or vLLM
-5. Point `.env` `OLLAMA_MODEL` / OpenAI-compatible endpoint to the new model
+5. Point `.env` `OLLAMA_MODEL` to the new model
 
 ### Steps checklist
 
