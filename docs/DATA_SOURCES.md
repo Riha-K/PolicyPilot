@@ -81,11 +81,10 @@ You are **not** training this embedding model unless you follow the optional fin
 
 ---
 
-## 3. Generation model data (OpenAI or Ollama)
+## 3. Generation model data (Ollama)
 
 | Backend | Model weights come from | Your data used as |
 |---------|-------------------------|-------------------|
-| OpenAI | Provider-hosted models | Prompt context only |
 | Ollama (`llama3.2`, etc.) | Local pull via `ollama pull` | Prompt context only |
 
 The CX documents are injected at **inference time** as retrieved context. They are not automatically used to update model weights.
