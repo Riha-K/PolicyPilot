@@ -41,16 +41,8 @@ class Settings:
     chunk_overlap: int = _int("CHUNK_OVERLAP", 120)
     top_k: int = _int("TOP_K", 4)
 
-    openai_api_key: str = os.getenv("OPENAI_API_KEY", "").strip()
-    openai_base_url: str = os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1").strip()
-    openai_model: str = os.getenv("OPENAI_MODEL", "gpt-4o-mini").strip()
-
     ollama_base_url: str = os.getenv("OLLAMA_BASE_URL", "http://127.0.0.1:11434").rstrip("/")
     ollama_model: str = os.getenv("OLLAMA_MODEL", "llama3.2").strip()
-
-    @property
-    def use_openai(self) -> bool:
-        return bool(self.openai_api_key)
 
 
 settings = Settings()
