@@ -9,12 +9,8 @@ All commands below assume **PowerShell on Windows**. Adjust paths if your clone 
 | -------------------------------------------------- | ------------------------ |
 | Python 3.11+ (3.11/3.12 preferred)                 | App runtime              |
 | ~2–4 GB free disk                                  | Embedding model + Chroma |
-| OpenAI API key **or** [Ollama](https://ollama.com) | Answer generation        |
+| [Ollama](https://ollama.com)                       | Answer generation        |
 | Browser                                            | Streamlit UI             |
-
-
-
-
 
 
 Check Python:
@@ -28,6 +24,8 @@ python --version
 ```powershell
 cd path\to\PolicyPilot
 ```
+
+
 
 ## 2. Create and activate virtual environment
 
@@ -67,18 +65,7 @@ notepad .env
 
 
 
-### Option A — OpenAI
-
-```env
-OPENAI_API_KEY=sk-...
-OPENAI_MODEL=gpt-4o-mini
-```
-
-
-
-### Option B — Local Ollama (no OpenAI key)
-
-Leave `OPENAI_API_KEY` empty, then:
+### Local Ollama
 
 ```powershell
 ollama serve
@@ -142,16 +129,9 @@ python -c "from app.rag.pipeline import RAGPipeline; p=RAGPipeline(); print(p.en
 3. Set:
   - Main file path: `app/streamlit_app.py`
   - Python version: 3.11 or 3.12
-4. In app **Secrets**, add:
+4. Cloud deploy needs a reachable Ollama host (local Ollama on your laptop is usually **not** available from Streamlit Cloud). Prefer LAN or a VPS with Ollama for demos.
 
-```toml
-OPENAI_API_KEY = "sk-..."
-OPENAI_MODEL = "gpt-4o-mini"
-```
-
-Or keep using a reachable Ollama host (usually local Ollama is **not** available from Cloud — prefer OpenAI for cloud deploy).
-
-5. Deploy and open the public URL.
+1. Deploy and open the public URL.
 
 
 
@@ -191,13 +171,13 @@ Or use the **Reindex** button in the sidebar.
 ## 11. Useful paths
 
 
-| Path                      | Role                                 |
-| ------------------------- | ------------------------------------ |
-| `path\to\PolicyPilot`     | Project root — **run commands here** |
-| `knowledge_base\`         | Source documents for retrieval       |
-| `data\chroma\`            | Persistent vector DB                 |
-| `.env`                    | Secrets and model names              |
-| `PolicyPilot.html`        | Open in browser for interview prep   |
+| Path                  | Role                                 |
+| --------------------- | ------------------------------------ |
+| `path\to\PolicyPilot` | Project root — **run commands here** |
+| `knowledge_base\`     | Source documents for retrieval       |
+| `data\chroma\`        | Persistent vector DB                 |
+| `.env`                | Secrets and model names              |
+| `PolicyPilot.html`    | Open in browser for interview prep   |
 
 
 
