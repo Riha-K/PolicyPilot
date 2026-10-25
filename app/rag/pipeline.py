@@ -45,9 +45,5 @@ class RAGPipeline:
             "knowledge_base": str(settings.knowledge_base_dir),
             "chroma_dir": str(settings.chroma_dir),
             "embedding_model": settings.embedding_model,
-            "llm": (
-                f"openai:{settings.openai_model}"
-                if settings.use_openai
-                else f"ollama:{settings.ollama_model}"
-            ),
+            "llm": f"ollama:{settings.ollama_model}",
         }
