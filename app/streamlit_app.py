@@ -74,8 +74,8 @@ def main() -> None:
 
         st.markdown("---")
         st.markdown(
-            "**Setup tip:** set `OPENAI_API_KEY` in `.env`, or run Ollama "
-            f"(`{settings.ollama_model}`) at `{settings.ollama_base_url}`."
+            "**Setup tip:** run Ollama "
+            f"(`ollama pull {settings.ollama_model}`) at `{settings.ollama_base_url}`."
         )
 
     if "messages" not in st.session_state:
