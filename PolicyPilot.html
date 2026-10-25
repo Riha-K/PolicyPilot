@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PolicyPilot — RAG Interview Guide | Riha Sanjay Kokode</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<style>
+  <style>
 :root{--bg:#0a0c10;--surface:#111318;--card:#161a22;--border:#232836;--text:#dde3f0;--muted:#6b7694;--bright:#fff;--blue:#5b9cf6;--gold:#f0b429;--green:#3ecf8e;--red:#f04e4e;--purple:#b57bee;--teal:#38d9d9;--orange:#f59e0b;}
 *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--text);font-family:'Lora',Georgia,serif;font-size:15px;line-height:1.8;}
@@ -109,7 +109,7 @@ body{background:var(--bg);color:var(--text);font-family:'Lora',Georgia,serif;fon
 .stat{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 16px;min-width:120px;text-align:center;}
 .stat .num{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;color:var(--bright);}
 .stat .lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-family:'Syne',sans-serif;}
-</style>
+  </style>
 <script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
   mermaid.initialize({ startOnLoad: true, theme: 'dark', themeVariables: { primaryColor: '#14241f', primaryTextColor: '#dde3f0', primaryBorderColor: '#3ecf8e', lineColor: '#f0b429', secondaryColor: '#161a22', tertiaryColor: '#0d1117', fontFamily: 'Lora, Georgia, serif' }});
@@ -121,7 +121,7 @@ body{background:var(--bg);color:var(--text);font-family:'Lora',Georgia,serif;fon
     <div class="topbar-brand">POLICYPILOT</div>
     <a href="#pitch">Pitch</a>
     <a href="#why">Why</a>
-    <a href="#arch">Architecture</a>
+      <a href="#arch">Architecture</a>
     <a href="#workflow">Workflow</a>
     <a href="#tech">Tech Why</a>
     <a href="#rag">RAG Deep</a>
@@ -142,7 +142,7 @@ body{background:var(--bg);color:var(--text);font-family:'Lora',Georgia,serif;fon
     <span class="hero-tag">ChromaDB</span>
     <span class="hero-tag">MiniLM</span>
     <span class="hero-tag">Streamlit</span>
-    <span class="hero-tag">OpenAI / Ollama</span>
+    <span class="hero-tag">Ollama</span>
     <span class="hero-tag">Grounded Prompt</span>
     <span class="hero-tag">Citations</span>
   </div>
@@ -157,7 +157,7 @@ body{background:var(--bg);color:var(--text);font-family:'Lora',Georgia,serif;fon
   <p class="sec-intro">Say this in <strong>45–60 seconds</strong>. Then point at the architecture diagram.</p>
 
   <div class="script-box">
-    “I built <strong>PolicyPilot</strong> — a Retrieval-Augmented Generation assistant for customer experience. Policy documents for shipping, billing, returns and support are chunked with overlap, embedded with a local <strong>sentence-transformers MiniLM</strong> model, and stored in <strong>ChromaDB</strong>. When a user asks a question in the <strong>Streamlit</strong> UI, I embed the query, retrieve top‑k relevant chunks, and generate an answer with <strong>OpenAI or Ollama</strong> using a grounded system prompt that forbids inventing policies. The UI shows source citations so answers are inspectable. When policies change, I reindex documents — no model retrain.”
+    “I built <strong>PolicyPilot</strong> — a Retrieval-Augmented Generation assistant for customer experience. Policy documents for shipping, billing, returns and support are chunked with overlap, embedded with a local <strong>sentence-transformers MiniLM</strong> model, and stored in <strong>ChromaDB</strong>. When a user asks a question in the <strong>Streamlit</strong> UI, I embed the query, retrieve top‑k relevant chunks, and generate an answer with local <strong>Ollama</strong> using a grounded system prompt that forbids inventing policies. The UI shows source citations so answers are inspectable. When policies change, I reindex documents — no model retrain.”
   </div>
 
   <div class="six-grid">
@@ -229,7 +229,7 @@ flowchart TB
     RET["Top-k retrieve"]
     PR["Grounded prompt<br/>context + question"]
     LLM{"LLM backend"}
-    OA["OpenAI<br/>if API key"]
+    OA["Ollama<br/>local LLM"]
     OL["Ollama<br/>local default"]
     ANS["Answer + source citations"]
     UI --> QE --> RET
@@ -257,7 +257,7 @@ flowchart TB
     <div class="flow-arrow">→</div>
     <div class="flow-step orange"><div class="flow-icon">🧩</div><div class="flow-name">Prompt</div><div class="flow-desc">grounded</div></div>
     <div class="flow-arrow">→</div>
-    <div class="flow-step"><div class="flow-icon">🤖</div><div class="flow-name">LLM</div><div class="flow-desc">OpenAI / Ollama</div></div>
+    <div class="flow-step"><div class="flow-icon">🤖</div><div class="flow-name">LLM</div><div class="flow-desc">Ollama</div></div>
   </div>
 
   <div class="diagram-box">
@@ -272,7 +272,7 @@ flowchart LR
   I --> C[chunking.py]
   I --> E
   I --> ST
-  G --> OA[OpenAI API]
+  G --> OA[Ollama]
   G --> OL[Ollama API]
   CFG[config.py] -.-> P
   CFG -.-> I
@@ -296,8 +296,8 @@ flowchart LR
         <li>Chunk with overlap</li>
         <li>Embed each chunk (MiniLM)</li>
         <li>Upsert into Chroma + metadata</li>
-      </ul>
-    </div>
+          </ul>
+        </div>
     <div class="phase query">
       <h4>Phase 2 — Ask (online / every question)</h4>
       <ul>
@@ -306,8 +306,8 @@ flowchart LR
         <li>Top‑k cosine retrieve</li>
         <li>Build grounded prompt</li>
         <li>LLM answer + show sources</li>
-      </ul>
-    </div>
+          </ul>
+        </div>
   </div>
 
   <div class="subsection">
@@ -369,10 +369,10 @@ flowchart LR
       <div class="vflow-step green">
         <div class="vn">Q5</div>
         <h5>Generate + cite</h5>
-        <p>OpenAI if key set, else Ollama. If both fail → extractive fallback (show top chunks). UI shows answer + sources.</p>
+        <p>Ollama generates the answer. If Ollama is down → extractive fallback (show top chunks). UI shows answer + sources.</p>
       </div>
     </div>
-  </div>
+      </div>
 
   <div class="diagram-box">
     <div class="caption">Figure C — One question sequence</div>
@@ -382,7 +382,7 @@ sequenceDiagram
   participant S as Streamlit
   participant P as RAGPipeline
   participant C as Chroma
-  participant L as OpenAI / Ollama
+  participant L as Ollama
   U->>S: Ask policy question
   S->>P: ask(question, top_k)
   P->>P: embed_query(question)
@@ -399,15 +399,10 @@ sequenceDiagram
     <div class="caption">Figure D — LLM backend decision</div>
     <pre class="mermaid">
 flowchart TD
-  A[generate_answer] --> B{OPENAI_API_KEY set?}
-  B -->|Yes| C[OpenAI chat API]
-  B -->|No| D[Ollama /api/chat]
-  C --> E{Success?}
+  A[generate_answer] --> D[Ollama /api/chat]
   D --> F{Reachable?}
-  E -->|Yes| G[Return generated answer]
-  E -->|No| H[Extractive fallback<br/>top retrieved chunks]
-  F -->|Yes| G
-  F -->|No| H
+  F -->|Yes| G[Return generated answer]
+  F -->|No| H[Extractive fallback<br/>top retrieved chunks]
     </pre>
   </div>
 </div>
@@ -425,11 +420,10 @@ flowchart TD
         <tr><td><strong>RAG</strong></td><td>Core pattern</td><td>Policies change; reindex cheaper than fine-tune; citations</td><td>Plain chat hallucinates; fine-tune alone goes stale</td></tr>
         <tr><td><strong>Python</strong></td><td>Language</td><td>Best ecosystem for embeddings + Streamlit + LLM APIs</td><td>Heavier stacks unnecessary for this app</td></tr>
         <tr><td><strong>Streamlit</strong></td><td>UI</td><td>Ship interactive chat/upload/reindex without React</td><td>Custom frontend = slower for demo/interview</td></tr>
-        <tr><td><strong>MiniLM-L6-v2</strong></td><td>Embeddings</td><td>Local, free, strong English baseline, ~384‑d, fast</td><td>OpenAI embeddings need key + cost for every chunk</td></tr>
+        <tr><td><strong>MiniLM-L6-v2</strong></td><td>Embeddings</td><td>Local, free, strong English baseline, ~384‑d, fast</td><td>Paid embedding APIs add key + cost for every chunk</td></tr>
         <tr><td><strong>ChromaDB</strong></td><td>Vector DB</td><td>Persistent local index; simple Python API; cosine NN</td><td>Pinecone needs cloud/account; FAISS needs more glue for metadata</td></tr>
         <tr><td><strong>Overlap chunking</strong></td><td>Preprocess</td><td>Preserves ideas cut at boundaries; better recall</td><td>Naive fixed splits lose context across cuts</td></tr>
-        <tr><td><strong>OpenAI</strong></td><td>LLM (optional)</td><td>High quality; works on Streamlit Cloud</td><td>Cost; needs key</td></tr>
-        <tr><td><strong>Ollama</strong></td><td>LLM (default local)</td><td>Free local demos; privacy-friendly during dev</td><td>Not reachable from Streamlit Cloud</td></tr>
+        <tr><td><strong>Ollama</strong></td><td>LLM</td><td>Free local demos; privacy-friendly; no API key</td><td>Not reachable from Streamlit Cloud without a remote host</td></tr>
         <tr><td><strong>pypdf</strong></td><td>Ingest</td><td>Real SOPs are often PDFs</td><td>md/txt-only would be unrealistic</td></tr>
         <tr><td><strong>python-dotenv</strong></td><td>Config</td><td>Secrets out of code</td><td>Hardcoded keys = security fail</td></tr>
       </tbody>
@@ -482,7 +476,7 @@ flowchart TD
         <li>Refuse if context insufficient</li>
         <li>Show sources for verification</li>
         <li>Still not 100% — bad retrieval can fail</li>
-      </ul>
+        </ul>
     </div>
     <div class="concept-card purple">
       <h4>Same embedding model</h4>
@@ -556,19 +550,19 @@ flowchart LR
     <div class="concept-card purple">
       <h4>Upload</h4>
       <p>Ingest a new .txt/.md/.pdf into the live index (upsert) for demos — without wiping the whole KB.</p>
-    </div>
-  </div>
+        </div>
+        </div>
 
   <div class="comparison-table">
-    <table>
+        <table>
       <thead><tr><th></th><th>Reindex</th><th>Upload ingest</th></tr></thead>
-      <tbody>
+          <tbody>
         <tr><td><strong>Clears store?</strong></td><td>Yes (rebuild)</td><td>No (append/upsert)</td></tr>
         <tr><td><strong>Source</strong></td><td>All of knowledge_base/</td><td>One uploaded file</td></tr>
         <tr><td><strong>When</strong></td><td>Policies edited in KB folder</td><td>Live demo of a new SOP</td></tr>
-      </tbody>
-    </table>
-  </div>
+          </tbody>
+        </table>
+      </div>
 
   <div class="code-block">@st.cache_resource
 def get_pipeline():
@@ -589,8 +583,8 @@ result = pipe.ask(prompt, top_k=top_k)
 
   <div class="qa-block">
     <div class="qa">
-      <div class="q">Q: Why OpenAI AND Ollama?</div>
-      <div class="a">Not used together. <strong>If API key → OpenAI</strong> (cloud/deploy). <strong>Else → Ollama</strong> (local/free). Same job: grounded generation. MiniLM is separate — embedding model, not the chat model. If both fail → extractive fallback.</div>
+      <div class="q">Q: Why Ollama for generation?</div>
+      <div class="a"><strong>Local and free</strong> — no API key. MiniLM is separate (embeddings only). If Ollama is down → extractive fallback from retrieved chunks.</div>
     </div>
     <div class="qa">
       <div class="q">Q: Which database? Where does data come from?</div>
@@ -640,15 +634,15 @@ result = pipe.ask(prompt, top_k=top_k)
         <li>Cross-encoder reranker</li>
         <li>Query rewriting / HyDE</li>
         <li>Metadata filters (doc type)</li>
-      </ul>
-    </div>
+        </ul>
+        </div>
     <div class="concept-card gold">
       <h4>Evaluation</h4>
       <ul>
         <li>Golden question set</li>
         <li>Faithfulness / relevance metrics</li>
         <li>Retrieval recall@k</li>
-      </ul>
+        </ul>
     </div>
     <div class="concept-card teal">
       <h4>Production</h4>
@@ -657,8 +651,8 @@ result = pipe.ask(prompt, top_k=top_k)
         <li>Auth + audit logs</li>
         <li>Multi-tenant collections</li>
         <li>Docker + CI eval gates</li>
-      </ul>
-    </div>
+        </ul>
+      </div>
     <div class="concept-card purple">
       <h4>Product</h4>
       <ul>
@@ -678,11 +672,11 @@ result = pipe.ask(prompt, top_k=top_k)
     <div class="qa"><div class="q">Q: What is an embedding?</div><div class="a">Dense vector capturing semantic meaning — similar texts land nearby for cosine search.</div></div>
     <div class="qa"><div class="q">Q: What is a vector database?</div><div class="a">Store optimized for nearest-neighbor search over embeddings (here: Chroma).</div></div>
     <div class="qa"><div class="q">Q: Extractive fallback?</div><div class="a">If no LLM reachable, show top retrieved policy snippets instead of failing silently.</div></div>
-    <div class="qa"><div class="q">Q: Resume one-liner?</div><div class="a">PolicyPilot — Fast retrieval over CX policy docs with local embeddings (Chroma) and grounded answers via OpenAI/Ollama, exposed through a Streamlit chat UI.</div></div>
+    <div class="qa"><div class="q">Q: Resume one-liner?</div><div class="a">PolicyPilot — Fast retrieval over CX policy docs with local embeddings (Chroma) and grounded answers via Ollama, exposed through a Streamlit chat UI.</div></div>
   </div>
 
   <div class="highlight-box">
-    <strong>Day-before checklist:</strong> (1) Recite pitch. (2) Draw ingest vs ask. (3) Defend MiniLM + Chroma + RAG over fine-tune. (4) Explain OpenAI vs Ollama decision. (5) Walk Streamlit: chat / sources / reindex / upload. (6) Name 3 production improvements.
+    <strong>Day-before checklist:</strong> (1) Recite pitch. (2) Draw ingest vs ask. (3) Defend MiniLM + Chroma + RAG over fine-tune. (4) Explain Ollama + extractive fallback. (5) Walk Streamlit: chat / sources / reindex / upload. (6) Name 3 production improvements.
   </div>
 </div>
 
