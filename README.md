@@ -67,3 +67,5 @@ docs/TRAINING_GUIDE.md
 - How do I request a refund for a duplicate charge?
 - What is the return window for electronics?
 - How can I contact support for a damaged package?
+
+<!-- refreshed: 2026-11-02 -->
