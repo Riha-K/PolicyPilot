@@ -38,7 +38,7 @@ def _extractive_fallback(question: str, chunks: list[RetrievedChunk]) -> str:
             "Add documents to knowledge_base/ or start Ollama (`ollama pull llama3.2`)."
         )
     lines = [
-        f"**Extractive answer** (Ollama unavailable — showing top retrieved policy text for: _{question}_)",
+        f"**Extractive answer** (Ollama unavailable - showing top retrieved policy text for: _{question}_)",
         "",
     ]
     for i, c in enumerate(chunks[:3], start=1):

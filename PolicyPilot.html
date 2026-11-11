@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PolicyPilot — RAG Interview Guide | Riha Sanjay Kokode</title>
+<title>PolicyPilot - RAG Interview Guide | Riha Sanjay Kokode</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
 :root{--bg:#0a0c10;--surface:#111318;--card:#161a22;--border:#232836;--text:#dde3f0;--muted:#6b7694;--bright:#fff;--blue:#5b9cf6;--gold:#f0b429;--green:#3ecf8e;--red:#f04e4e;--purple:#b57bee;--teal:#38d9d9;--orange:#f59e0b;}
@@ -137,7 +137,7 @@ body{background:var(--bg);color:var(--text);font-family:'Lora',Georgia,serif;fon
 <div class="hero">
   <div class="hero-eyebrow">Project Interview Study Guide · Visual Edition</div>
   <h1>PolicyPilot<br><em>CX RAG Assistant</em></h1>
-  <p class="hero-sub">Full interview prep with architecture diagrams, ingest/query workflows, tech “why” answers, Streamlit UI walkthrough, and scenario Q&amp;A — built from your real codebase.</p>
+  <p class="hero-sub">Full interview prep with architecture diagrams, ingest/query workflows, tech “why” answers, Streamlit UI walkthrough, and scenario Q&amp;A - built from your real codebase.</p>
   <div class="hero-tags">
     <span class="hero-tag">RAG</span>
     <span class="hero-tag">ChromaDB</span>
@@ -158,7 +158,7 @@ body{background:var(--bg);color:var(--text);font-family:'Lora',Georgia,serif;fon
   <p class="sec-intro">Say this in <strong>45–60 seconds</strong>. Then point at the architecture diagram.</p>
 
   <div class="script-box">
-    “I built <strong>PolicyPilot</strong> — a Retrieval-Augmented Generation assistant for customer experience. Policy documents for shipping, billing, returns and support are chunked with overlap, embedded with a local <strong>sentence-transformers MiniLM</strong> model, and stored in <strong>ChromaDB</strong>. When a user asks a question in the <strong>Streamlit</strong> UI, I embed the query, retrieve top‑k relevant chunks, and generate an answer with local <strong>Ollama</strong> using a grounded system prompt that forbids inventing policies. The UI shows source citations so answers are inspectable. When policies change, I reindex documents — no model retrain.”
+    “I built <strong>PolicyPilot</strong> - a Retrieval-Augmented Generation assistant for customer experience. Policy documents for shipping, billing, returns and support are chunked with overlap, embedded with a local <strong>sentence-transformers MiniLM</strong> model, and stored in <strong>ChromaDB</strong>. When a user asks a question in the <strong>Streamlit</strong> UI, I embed the query, retrieve top‑k relevant chunks, and generate an answer with local <strong>Ollama</strong> using a grounded system prompt that forbids inventing policies. The UI shows source citations so answers are inspectable. When policies change, I reindex documents - no model retrain.”
   </div>
 
   <div class="six-grid">
@@ -203,17 +203,17 @@ body{background:var(--bg);color:var(--text);font-family:'Lora',Georgia,serif;fon
       </ul>
     </div>
   </div>
-  <div class="tip-box"><strong>One-line impact:</strong> Cut support load and hallucination risk by answering from retrieved company documents — not model memory alone.</div>
+  <div class="tip-box"><strong>One-line impact:</strong> Cut support load and hallucination risk by answering from retrieved company documents - not model memory alone.</div>
 </div>
 
 <!-- ARCHITECTURE -->
 <div id="arch" class="section">
   <div class="sec-label">03</div>
-  <h2 class="sec-title">Architecture — Visual Map</h2>
+  <h2 class="sec-title">Architecture - Visual Map</h2>
   <p class="sec-intro">Draw this on a whiteboard. <strong>Two planes:</strong> offline ingest (top) and online ask (bottom).</p>
 
   <div class="diagram-box">
-    <div class="caption">Figure A — System architecture</div>
+    <div class="caption">Figure A - System architecture</div>
     <pre class="mermaid">
 flowchart TB
   subgraph INGEST["INGEST / INDEX BUILD"]
@@ -262,7 +262,7 @@ flowchart TB
   </div>
 
   <div class="diagram-box">
-    <div class="caption">Figure B — Module map (code files)</div>
+    <div class="caption">Figure B - Module map (code files)</div>
     <pre class="mermaid">
 flowchart LR
   S[streamlit_app.py] --> P[pipeline.py]
@@ -285,12 +285,12 @@ flowchart LR
 <!-- WORKFLOW -->
 <div id="workflow" class="section">
   <div class="sec-label">04</div>
-  <h2 class="sec-title">Full Workflow — Step by Step</h2>
+  <h2 class="sec-title">Full Workflow - Step by Step</h2>
   <p class="sec-intro">If they say “walk me through it,” use <strong>Phase 1 ingest</strong> then <strong>Phase 2 ask</strong>.</p>
 
   <div class="phase-row">
     <div class="phase ingest">
-      <h4>Phase 1 — Ingest (offline / on reindex)</h4>
+      <h4>Phase 1 - Ingest (offline / on reindex)</h4>
       <ul>
         <li>Read files from knowledge_base/</li>
         <li>Extract text (incl. PDF via pypdf)</li>
@@ -300,7 +300,7 @@ flowchart LR
           </ul>
         </div>
     <div class="phase query">
-      <h4>Phase 2 — Ask (online / every question)</h4>
+      <h4>Phase 2 - Ask (online / every question)</h4>
       <ul>
         <li>User types question in Streamlit</li>
         <li>Embed question (same model)</li>
@@ -317,7 +317,7 @@ flowchart LR
       <div class="vflow-step">
         <div class="vn">I1</div>
         <h5>Load policy files</h5>
-        <p>Read <code>knowledge_base/</code> — shipping, billing, returns, support, faq (+ optional uploads). Formats: <code>.md</code>, <code>.txt</code>, <code>.pdf</code>.</p>
+        <p>Read <code>knowledge_base/</code> - shipping, billing, returns, support, faq (+ optional uploads). Formats: <code>.md</code>, <code>.txt</code>, <code>.pdf</code>.</p>
       </div>
       <div class="vflow-arrow">↓</div>
       <div class="vflow-step">
@@ -352,7 +352,7 @@ flowchart LR
       <div class="vflow-step">
         <div class="vn">Q2</div>
         <h5>Embed the question</h5>
-        <p>Same MiniLM space as documents — otherwise similarity is meaningless.</p>
+        <p>Same MiniLM space as documents - otherwise similarity is meaningless.</p>
       </div>
       <div class="vflow-arrow">↓</div>
       <div class="vflow-step">
@@ -376,7 +376,7 @@ flowchart LR
       </div>
 
   <div class="diagram-box">
-    <div class="caption">Figure C — One question sequence</div>
+    <div class="caption">Figure C - One question sequence</div>
     <pre class="mermaid">
 sequenceDiagram
   participant U as User
@@ -397,7 +397,7 @@ sequenceDiagram
   </div>
 
   <div class="diagram-box">
-    <div class="caption">Figure D — LLM backend decision</div>
+    <div class="caption">Figure D - LLM backend decision</div>
     <pre class="mermaid">
 flowchart TD
   A[generate_answer] --> D[Ollama /api/chat]
@@ -411,7 +411,7 @@ flowchart TD
 <!-- TECH WHY -->
 <div id="tech" class="section">
   <div class="sec-label">05</div>
-  <h2 class="sec-title">Technologies — Why Exactly These?</h2>
+  <h2 class="sec-title">Technologies - Why Exactly These?</h2>
   <p class="sec-intro">Interviewers drill: <strong>“Why X? Why not Y?”</strong> Memorize this table.</p>
 
   <div class="comparison-table">
@@ -443,13 +443,13 @@ flowchart TD
     </div>
     <div class="concept-card gold">
       <h4>Source of truth</h4>
-      <p><code>knowledge_base/</code> holds the real policy text. Chroma holds <strong>vectors derived from it</strong> — not the original authoring source.</p>
+      <p><code>knowledge_base/</code> holds the real policy text. Chroma holds <strong>vectors derived from it</strong> - not the original authoring source.</p>
     </div>
     <div class="concept-card teal">
       <h4>Metadata per chunk</h4>
       <ul>
-        <li><strong>source</strong> — file path</li>
-        <li><strong>index</strong> — chunk number</li>
+        <li><strong>source</strong> - file path</li>
+        <li><strong>index</strong> - chunk number</li>
         <li>Used for citations in UI</li>
       </ul>
     </div>
@@ -476,7 +476,7 @@ flowchart TD
         <li>Grounded system prompt</li>
         <li>Refuse if context insufficient</li>
         <li>Show sources for verification</li>
-        <li>Still not 100% — bad retrieval can fail</li>
+        <li>Still not 100% - bad retrieval can fail</li>
         </ul>
     </div>
     <div class="concept-card purple">
@@ -493,7 +493,7 @@ flowchart TD
   </div>
 
   <div class="diagram-box">
-    <div class="caption">Figure E — Embedding path (MiniLM)</div>
+    <div class="caption">Figure E - Embedding path (MiniLM)</div>
     <pre class="mermaid">
 flowchart LR
   T[Text chunk] --> TOK[Tokenize]
@@ -509,7 +509,7 @@ flowchart LR
   <div class="qa-block">
     <div class="qa">
       <div class="q">Q: Does MiniLM use attention?</div>
-      <div class="a"><strong>Yes</strong> — Transformer self-attention. Not TF‑IDF. Tokens attend to each other, then mean-pool to one sentence vector, then normalize for cosine search.</div>
+      <div class="a"><strong>Yes</strong> - Transformer self-attention. Not TF‑IDF. Tokens attend to each other, then mean-pool to one sentence vector, then normalize for cosine search.</div>
     </div>
     <div class="qa">
       <div class="q">Q: Token embedding vs position embedding?</div>
@@ -525,7 +525,7 @@ flowchart LR
 <!-- STREAMLIT UI -->
 <div id="ui" class="section">
   <div class="sec-label">07</div>
-  <h2 class="sec-title">Streamlit UI — Visual Walkthrough</h2>
+  <h2 class="sec-title">Streamlit UI - Visual Walkthrough</h2>
   <p class="sec-intro">File: <code>app/streamlit_app.py</code>. Be ready to explain chat, sources, reindex, upload.</p>
 
   <div class="ui-mock"><span class="lo">┌── sidebar ──────────────────┐  ┌── chat ──────────────┐  ┌── retrieved ──┐</span>
@@ -550,7 +550,7 @@ flowchart LR
     </div>
     <div class="concept-card purple">
       <h4>Upload</h4>
-      <p>Ingest a new .txt/.md/.pdf into the live index (upsert) for demos — without wiping the whole KB.</p>
+      <p>Ingest a new .txt/.md/.pdf into the live index (upsert) for demos - without wiping the whole KB.</p>
         </div>
         </div>
 
@@ -585,7 +585,7 @@ result = pipe.ask(prompt, top_k=top_k)
   <div class="qa-block">
     <div class="qa">
       <div class="q">Q: Why Ollama for generation?</div>
-      <div class="a"><strong>Local and free</strong> — no API key. MiniLM is separate (embeddings only). If Ollama is down → extractive fallback from retrieved chunks.</div>
+      <div class="a"><strong>Local and free</strong> - no API key. MiniLM is separate (embeddings only). If Ollama is down → extractive fallback from retrieved chunks.</div>
     </div>
     <div class="qa">
       <div class="q">Q: Which database? Where does data come from?</div>
@@ -600,7 +600,7 @@ result = pipe.ask(prompt, top_k=top_k)
       <div class="a">Debug order: (1) Was the right chunk retrieved? Fix chunking/embeddings/hybrid/rerank. (2) Context present but ignored? Strengthen prompt, lower temperature. (3) Ambiguous query? Rewrite/HyDE. (4) Add eval set (faithfulness/relevance).</div>
     </div>
     <div class="qa">
-      <div class="q">Q: Grounded system prompt — what does it say?</div>
+      <div class="q">Q: Grounded system prompt - what does it say?</div>
       <div class="a">Answer ONLY from provided context; if missing, say so and suggest support; don’t invent order IDs/fees/policies; be concise and mention policy limits when present.</div>
     </div>
   </div>
@@ -618,7 +618,7 @@ result = pipe.ask(prompt, top_k=top_k)
     <div class="qa"><div class="q">Q: What is top‑k?</div><div class="a">Number of nearest chunks returned. Small k = precise but may miss; large k = more recall, noisier prompt, higher token cost. Default 4; tunable in UI.</div></div>
     <div class="qa"><div class="q">Q: How do you know the system works?</div><div class="a">Ask known policy questions; verify sources contain the claim; test refusal when KB lacks info; spot-check after reindex that new text is retrievable.</div></div>
     <div class="qa"><div class="q">Q: Security / trust notes?</div><div class="a">Don’t put real PII/secrets in knowledge_base for demos. Still verify critical financial/legal answers against original policy. Add auth/audit before production agent use.</div></div>
-    <div class="qa"><div class="q">Q: How does this map to ARC / document AI roles?</div><div class="a">Same pattern: turn documents into embeddings, retrieve, generate grounded answers with citations — core of document intelligence and AI-ready knowledge systems.</div></div>
+    <div class="qa"><div class="q">Q: How does this map to ARC / document AI roles?</div><div class="a">Same pattern: turn documents into embeddings, retrieve, generate grounded answers with citations - core of document intelligence and AI-ready knowledge systems.</div></div>
     <div class="qa"><div class="q">Q: Challenge you faced?</div><div class="a">Weak retrieval → wrong answers. Fixed via overlap chunking, grounded refuse-when-unsure prompt, and source panel so failures are visible instead of confident hallucinations.</div></div>
   </div>
 </div>
@@ -633,36 +633,36 @@ result = pipe.ask(prompt, top_k=top_k)
     <div class="qa">
       <div class="q">Q: Why RAG instead of fine-tuning?</div>
       <div class="a">
-        CX policies (shipping, billing, returns, support) are <strong>external knowledge that changes often</strong>. Fine-tuning would bake facts into weights — every policy edit means retrain, cost, and lag.<br><br>
-        RAG keeps facts in markdown/PDF, embeds them, and retrieves at ask time. I get <strong>citations</strong> (source + score in the UI), lower training cost, and updates by <strong>edit → reindex</strong>. Fine-tune is better for tone/format or a stable skill — not for volatile policy text. Prompt-only has no document grounding.
+        CX policies (shipping, billing, returns, support) are <strong>external knowledge that changes often</strong>. Fine-tuning would bake facts into weights - every policy edit means retrain, cost, and lag.<br><br>
+        RAG keeps facts in markdown/PDF, embeds them, and retrieves at ask time. I get <strong>citations</strong> (source + score in the UI), lower training cost, and updates by <strong>edit → reindex</strong>. Fine-tune is better for tone/format or a stable skill - not for volatile policy text. Prompt-only has no document grounding.
       </div>
     </div>
     <div class="qa">
       <div class="q">Q: How did you decide chunk size?</div>
       <div class="a">
         Defaults: <strong>chunk_size=700 characters</strong>, <strong>overlap=120</strong> (config / .env). Not “500 tokens because industry standard.”<br><br>
-        Policy docs are short sectioned markdown. ~700 chars usually keeps a policy rule (window, fee, eligibility) <strong>semantically complete</strong> in one chunk without blowing MiniLM’s useful context or stuffing the LLM prompt. Overlap covers ideas that sit on a cut. Chunker prefers paragraph → sentence → space breaks. If a rule split across chunks in debugging, I’d raise size or overlap — not blindly copy a blog number. Top-k default <strong>4</strong> fits a small local context window without drowning the grounded prompt.
+        Policy docs are short sectioned markdown. ~700 chars usually keeps a policy rule (window, fee, eligibility) <strong>semantically complete</strong> in one chunk without blowing MiniLM’s useful context or stuffing the LLM prompt. Overlap covers ideas that sit on a cut. Chunker prefers paragraph → sentence → space breaks. If a rule split across chunks in debugging, I’d raise size or overlap - not blindly copy a blog number. Top-k default <strong>4</strong> fits a small local context window without drowning the grounded prompt.
       </div>
     </div>
     <div class="qa">
       <div class="q">Q: Which retrieval method did you use?</div>
       <div class="a">
         <strong>Dense retrieval only:</strong> embed query with MiniLM → Chroma nearest-neighbor (cosine) → top-k chunks + scores.<br><br>
-        Why it fits: CX questions are often paraphrases (“how long for refund?” vs “refund timing”) — dense handles meaning better than pure keywords. Metadata (source file, chunk index) is stored and shown, but I do <strong>not</strong> filter by metadata at query time yet.<br><br>
+        Why it fits: CX questions are often paraphrases (“how long for refund?” vs “refund timing”) - dense handles meaning better than pure keywords. Metadata (source file, chunk index) is stored and shown, but I do <strong>not</strong> filter by metadata at query time yet.<br><br>
         What I did <strong>not</strong> ship: BM25 keyword, hybrid, cross-encoder rerank. I’d add hybrid if exact SKUs/policy IDs fail dense match; rerank if top-k is noisy.
       </div>
     </div>
     <div class="qa">
       <div class="q">Q: How did you evaluate retrieval quality?</div>
       <div class="a">
-        Today: <strong>manual / qualitative</strong> — ask known questions, open the sources panel, check that the cited chunk actually contains the claim; test “unknown” questions for refusal; after reindex, confirm new text is retrievable. Generation quality alone is not enough — a fluent answer can cite the wrong file.<br><br>
+        Today: <strong>manual / qualitative</strong> - ask known questions, open the sources panel, check that the cited chunk actually contains the claim; test “unknown” questions for refusal; after reindex, confirm new text is retrievable. Generation quality alone is not enough - a fluent answer can cite the wrong file.<br><br>
         What I’d add formally: a golden set of (question → expected source/chunk ids) and report <strong>Recall@K</strong>, <strong>Precision@K</strong>, <strong>MRR</strong>, optionally <strong>nDCG</strong>, plus a context-relevance label (human or LLM-as-judge). Separate retrieval metrics from answer faithfulness.
       </div>
     </div>
     <div class="qa">
       <div class="q">Q: How did you reduce hallucinations?</div>
       <div class="a">
-        Stacked controls, not “better prompt” alone: (1) <strong>better retrieval</strong> + overlap so the right clause is in context; (2) <strong>grounding instructions</strong> — answer only from context; (3) <strong>refuse</strong> when context lacks the answer and suggest support; (4) <strong>citation panel</strong> so wrong grounding is visible; (5) no inventing fees/order IDs. Still not 100% — bad retrieval can still mislead; next: rerank + context validation before generate.
+        Stacked controls, not “better prompt” alone: (1) <strong>better retrieval</strong> + overlap so the right clause is in context; (2) <strong>grounding instructions</strong> - answer only from context; (3) <strong>refuse</strong> when context lacks the answer and suggest support; (4) <strong>citation panel</strong> so wrong grounding is visible; (5) no inventing fees/order IDs. Still not 100% - bad retrieval can still mislead; next: rerank + context validation before generate.
       </div>
     </div>
     <div class="qa">
@@ -683,42 +683,42 @@ result = pipe.ask(prompt, top_k=top_k)
       <div class="q">Q: How do you know your retrieval is good?</div>
       <div class="a">
         Not from a fluent answer alone. I open the <strong>sources panel</strong> and check: (1) the cited file is the right policy domain (shipping vs returns); (2) the snippet actually contains the number/rule the answer used; (3) similarity scores for the top hit look clearly better than junk chunks; (4) “unknown” questions retrieve weak/irrelevant context and the model <strong>refuses</strong> instead of inventing.<br><br>
-        That’s qualitative retrieval QA. Formal proof would be a golden set with Recall@K / MRR — I haven’t logged that yet.
+        That’s qualitative retrieval QA. Formal proof would be a golden set with Recall@K / MRR - I haven’t logged that yet.
       </div>
     </div>
     <div class="qa">
       <div class="q">Q: How many queries did you test?</div>
       <div class="a">
-        Honestly: a <strong>small manual set</strong>, not hundreds. Roughly a handful per policy area (shipping, billing, returns, support) — about <strong>~15–25</strong> fixed questions I reuse after reindex, plus ad-hoc paraphrases while building the UI. Example prompts in Streamlit are part of that smoke set.<br><br>
+        Honestly: a <strong>small manual set</strong>, not hundreds. Roughly a handful per policy area (shipping, billing, returns, support) - about <strong>~15–25</strong> fixed questions I reuse after reindex, plus ad-hoc paraphrases while building the UI. Example prompts in Streamlit are part of that smoke set.<br><br>
         I do <strong>not</strong> claim a large offline eval suite. Next step: grow a golden CSV of 50–100 questions with expected source files.
       </div>
     </div>
     <div class="qa">
       <div class="q">Q: What did the failed queries have in common?</div>
       <div class="a">
-        Patterns I saw when retrieval/answer missed: (1) <strong>vague queries</strong> (“what’s the policy?”) with no product/topic — dense search returns mixed files; (2) <strong>exact IDs / rare keywords</strong> that MiniLM underweights vs paraphrase wording; (3) answers that needed <strong>two sections</strong> (e.g. return window + refund timing) when top-k only pulled one; (4) questions about facts <strong>not in the KB</strong> — correct behavior is refuse, not a retrieval “win.”<br><br>
+        Patterns I saw when retrieval/answer missed: (1) <strong>vague queries</strong> (“what’s the policy?”) with no product/topic - dense search returns mixed files; (2) <strong>exact IDs / rare keywords</strong> that MiniLM underweights vs paraphrase wording; (3) answers that needed <strong>two sections</strong> (e.g. return window + refund timing) when top-k only pulled one; (4) questions about facts <strong>not in the KB</strong> - correct behavior is refuse, not a retrieval “win.”<br><br>
         Fixes that helped: clearer questions, overlap chunking, checking sources, and the refuse-when-unsure prompt. Remaining gaps point to hybrid/rerank and a labeled fail set.
       </div>
     </div>
     <div class="qa">
-      <div class="q">Q: Your RAG answers correctly today. Tomorrow the source docs change — thousands of cached answers become wrong. How do you invalidate and refresh AI-generated knowledge safely?</div>
+      <div class="q">Q: Your RAG answers correctly today. Tomorrow the source docs change - thousands of cached answers become wrong. How do you invalidate and refresh AI-generated knowledge safely?</div>
       <div class="a">
         <strong>Core idea:</strong> Treat generated answers as <em>derived</em>, not as the source of truth. Truth lives in the policy files + vector index. When docs change, reindex and make sure nothing still serves yesterday’s text.<br><br>
         <strong>What PolicyPilot does today:</strong> no persistent answer cache of “final truths.” Knowledge updates by <strong>edit markdown → reindex Chroma</strong>. Next ask embeds the query against the <strong>new</strong> chunks, so answers refresh naturally. The Streamlit reindex path is the safe refresh.<br><br>
         <strong>Production pattern I’d add if answers were cached (cost/latency):</strong>
         <ol style="margin:8px 0 8px 18px;padding:0;">
-          <li><strong>Provenance on every cache entry</strong> — cited <code>doc_ids</code> / chunk content hashes, <code>kb_version</code> (or index build id), <code>generated_at</code>, optional TTL.</li>
-          <li><strong>Version the KB</strong> — on reindex, bump <code>kb_version</code> (or per-file content hash). Invalidate any cache row whose version or overlapping <code>doc_id</code> no longer matches.</li>
-          <li><strong>Atomic index swap</strong> — build new collection → cut over → then purge stale answer cache (never serve mid-rebuild half-state).</li>
-          <li><strong>Lazy safety check</strong> — before returning a cached answer, re-hash cited chunks; if hash ≠ stored → regenerate from fresh retrieval.</li>
-          <li><strong>Prefer retrieve-at-ask for policies</strong> — safest default: don’t treat cached LLM answers as permanent facts; cache embeddings briefly if needed, regenerate grounded text.</li>
-          <li><strong>Smoke after refresh</strong> — known questions + citation check; UI can show “grounded as of &lt;timestamp / kb_version&gt;.”</li>
+          <li><strong>Provenance on every cache entry</strong> - cited <code>doc_ids</code> / chunk content hashes, <code>kb_version</code> (or index build id), <code>generated_at</code>, optional TTL.</li>
+          <li><strong>Version the KB</strong> - on reindex, bump <code>kb_version</code> (or per-file content hash). Invalidate any cache row whose version or overlapping <code>doc_id</code> no longer matches.</li>
+          <li><strong>Atomic index swap</strong> - build new collection → cut over → then purge stale answer cache (never serve mid-rebuild half-state).</li>
+          <li><strong>Lazy safety check</strong> - before returning a cached answer, re-hash cited chunks; if hash ≠ stored → regenerate from fresh retrieval.</li>
+          <li><strong>Prefer retrieve-at-ask for policies</strong> - safest default: don’t treat cached LLM answers as permanent facts; cache embeddings briefly if needed, regenerate grounded text.</li>
+          <li><strong>Smoke after refresh</strong> - known questions + citation check; UI can show “grounded as of &lt;timestamp / kb_version&gt;.”</li>
         </ol>
-        <strong>One-liner:</strong> “Version the KB, store chunk hashes on any cached answer, reindex + atomically swap the index, and invalidate cache whose cited docs or <code>kb_version</code> don’t match — never serve AI text as immutable policy.”
+        <strong>One-liner:</strong> “Version the KB, store chunk hashes on any cached answer, reindex + atomically swap the index, and invalidate cache whose cited docs or <code>kb_version</code> don’t match - never serve AI text as immutable policy.”
       </div>
     </div>
   </div>
-  <div class="tip-box"><strong>Honesty line:</strong> “I ship dense RAG with grounded prompts and source inspection. Hybrid, rerank, and formal Recall@K are the next eval layer — not pretend they’re already in the repo.”</div>
+  <div class="tip-box"><strong>Honesty line:</strong> “I ship dense RAG with grounded prompts and source inspection. Hybrid, rerank, and formal Recall@K are the next eval layer - not pretend they’re already in the repo.”</div>
 </div>
 
 <!-- IMPROVE -->
@@ -769,10 +769,10 @@ result = pipe.ask(prompt, top_k=top_k)
   <div class="sec-label">11</div>
   <h2 class="sec-title">Quick Hits + Day-Before Checklist</h2>
   <div class="qa-block">
-    <div class="qa"><div class="q">Q: What is an embedding?</div><div class="a">Dense vector capturing semantic meaning — similar texts land nearby for cosine search.</div></div>
+    <div class="qa"><div class="q">Q: What is an embedding?</div><div class="a">Dense vector capturing semantic meaning - similar texts land nearby for cosine search.</div></div>
     <div class="qa"><div class="q">Q: What is a vector database?</div><div class="a">Store optimized for nearest-neighbor search over embeddings (here: Chroma).</div></div>
     <div class="qa"><div class="q">Q: Extractive fallback?</div><div class="a">If no LLM reachable, show top retrieved policy snippets instead of failing silently.</div></div>
-    <div class="qa"><div class="q">Q: Resume one-liner?</div><div class="a">PolicyPilot — Fast retrieval over CX policy docs with local embeddings (Chroma) and grounded answers via Ollama, exposed through a Streamlit chat UI.</div></div>
+    <div class="qa"><div class="q">Q: Resume one-liner?</div><div class="a">PolicyPilot - Fast retrieval over CX policy docs with local embeddings (Chroma) and grounded answers via Ollama, exposed through a Streamlit chat UI.</div></div>
   </div>
 
   <div class="highlight-box">

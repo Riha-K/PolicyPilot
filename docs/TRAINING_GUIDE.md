@@ -1,4 +1,4 @@
-# Training Guide — When and How to Train (Step by Step)
+# Training Guide - When and How to Train (Step by Step)
 
 ## Important first
 
@@ -14,7 +14,7 @@ Use this guide only if an interviewer asks “how would you train/improve it?”
 
 ---
 
-## Path A — No training (recommended baseline)
+## Path A - No training (recommended baseline)
 
 ### Steps
 
@@ -34,7 +34,7 @@ Use this guide only if an interviewer asks “how would you train/improve it?”
 
 ---
 
-## Path B — Evaluate before training
+## Path B - Evaluate before training
 
 Create a small gold set (20–50 questions):
 
@@ -47,14 +47,14 @@ For each question, manually note:
 - which file should be retrieved
 
 Measure:
-- **Retrieval hit rate** — is the right doc in top‑k?
-- **Answer faithfulness** — does the answer stick to context?
+- **Retrieval hit rate** - is the right doc in top‑k?
+- **Answer faithfulness** - does the answer stick to context?
 
 Only move to training if retrieval is good but generation is weak, or retrieval itself is weak.
 
 ---
 
-## Path C — Fine-tune embeddings (optional, advanced)
+## Path C - Fine-tune embeddings (optional, advanced)
 
 Use when similar CX questions retrieve the wrong policy sections.
 
@@ -83,7 +83,7 @@ python scripts/finetune_embeddings.py --train data/training/retrieval_pairs.json
 
 ---
 
-## Path D — Fine-tune / adapt the chat model (optional, advanced)
+## Path D - Fine-tune / adapt the chat model (optional, advanced)
 
 Use when the model ignores instructions, formats poorly, or needs brand tone.
 
@@ -112,7 +112,7 @@ Use when the model ignores instructions, formats poorly, or needs brand tone.
 
 ---
 
-## Path E — What “training data” means in interviews
+## Path E - What “training data” means in interviews
 
 Be precise:
 
@@ -121,7 +121,7 @@ Be precise:
 | “Train the RAG” | Usually **index documents**, not backprop |
 | “Train embeddings” | Fine-tune sentence encoder |
 | “Train the LLM” | SFT / LoRA / RLHF on chat model |
-| “Feed PDFs to the model” | Ambiguous — clarify ingest vs fine-tune |
+| “Feed PDFs to the model” | Ambiguous - clarify ingest vs fine-tune |
 
 **Best answer for this repo:**  
 “We index policy PDFs/markdown into a vector store. The generator is a frozen chat model. If needed, we’d fine-tune embeddings or LoRA the generator using anonymized support Q&A.”
@@ -146,7 +146,7 @@ Be precise:
 
 ---
 
-## Path F — Failure modes before you touch training
+## Path F - Failure modes before you touch training
 
 Use this checklist when answers look wrong. Most “we need to train” moments are actually retrieval or prompt issues.
 

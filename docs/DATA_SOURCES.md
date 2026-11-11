@@ -1,4 +1,4 @@
-# Data Sources — Where Knowledge / Training Data Comes From
+# Data Sources - Where Knowledge / Training Data Comes From
 
 This file explains **what data this project uses**, where it comes from, and how that differs from “training a model.”
 
@@ -6,8 +6,8 @@ This file explains **what data this project uses**, where it comes from, and how
 
 | Stage | Data used | Do we train? |
 |-------|-----------|--------------|
-| Retrieval index | Your CX documents in `knowledge_base/` | **No training** — documents are **embedded and indexed** |
-| Answer generation | Same retrieved chunks + chat LLM | **No training by default** — we **prompt** Llama/GPT |
+| Retrieval index | Your CX documents in `knowledge_base/` | **No training** - documents are **embedded and indexed** |
+| Answer generation | Same retrieved chunks + chat LLM | **No training by default** - we **prompt** Llama/GPT |
 | Optional advanced | Domain Q&A pairs / preference data | Only if you follow `TRAINING_GUIDE.md` |
 
 **Default project behavior = RAG indexing, not model training.**
@@ -75,7 +75,7 @@ Then click **Reindex knowledge base** in the sidebar (or delete `data/chroma` an
 | Model | `sentence-transformers/all-MiniLM-L6-v2` |
 | Source | Hugging Face Hub (downloaded on first run) |
 | Trained by | Model authors (general English semantic similarity) |
-| Your role | **Inference only** — encode chunks/queries |
+| Your role | **Inference only** - encode chunks/queries |
 
 You are **not** training this embedding model unless you follow the optional fine-tuning section in `TRAINING_GUIDE.md`.
 
@@ -147,4 +147,4 @@ Suggested checklist before a demo:
 
 ## 7. Interview-ready summary
 
-> “PolicyPilot is grounded on a curated CX knowledge base. At runtime we embed those docs into Chroma. User questions retrieve top‑k chunks. The LLM answers only from that context. We don’t train the chat model on company data by default—updating policies means updating documents and reindexing, which is the operational advantage of RAG.”
+> “PolicyPilot is grounded on a curated CX knowledge base. At runtime we embed those docs into Chroma. User questions retrieve top‑k chunks. The LLM answers only from that context. We don’t train the chat model on company data by default-updating policies means updating documents and reindexing, which is the operational advantage of RAG.”

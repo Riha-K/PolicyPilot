@@ -1,4 +1,4 @@
-# Runbook — PolicyPilot
+# Runbook - PolicyPilot
 
 All commands below assume **PowerShell on Windows**. Adjust paths if your clone lives elsewhere.
 
@@ -43,7 +43,7 @@ Confirm prompt shows `(.venv)`.
 python -m pip install -r requirements.txt
 ```
 
-First install downloads PyTorch / transformers wheels — can take several minutes.
+First install downloads PyTorch / transformers wheels - can take several minutes.
 
 ### If install fails on Python 3.13
 
@@ -173,7 +173,7 @@ Or use the **Reindex** button in the sidebar.
 
 | Path                  | Role                                 |
 | --------------------- | ------------------------------------ |
-| `path\to\PolicyPilot` | Project root — **run commands here** |
+| `path\to\PolicyPilot` | Project root - **run commands here** |
 | `knowledge_base\`     | Source documents for retrieval       |
 | `data\chroma\`        | Persistent vector DB                 |
 | `.env`                | Secrets and model names              |

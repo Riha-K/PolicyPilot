@@ -126,7 +126,7 @@ def main() -> None:
             st.info("Ask a question to inspect retrieved chunks here.")
         else:
             for i, src in enumerate(last.get("sources", []), start=1):
-                with st.expander(f"[{i}] {src['source']} — score {src['score']}", expanded=(i == 1)):
+                with st.expander(f"[{i}] {src['source']} - score {src['score']}", expanded=(i == 1)):
                     st.write(src.get("snippet", ""))
 
         st.markdown("---")

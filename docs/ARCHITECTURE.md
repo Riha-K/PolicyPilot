@@ -1,4 +1,4 @@
-# Architecture — PolicyPilot
+# Architecture - PolicyPilot
 
 ## Goal
 
@@ -93,8 +93,8 @@ file bytes → text extract → chunks[] → vectors[] → Chroma upsert(id, doc
 ```
 
 Metadata stored per chunk:
-- `source` — relative file path
-- `index` — chunk number inside that file
+- `source` - relative file path
+- `index` - chunk number inside that file
 
 ## Trust / safety notes
 
